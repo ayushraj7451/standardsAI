@@ -466,7 +466,7 @@
             is_valid: !hRec.is_fraud,
             details: hRec,
             is_prototype: true,
-            disclaimer: 'Prototype demonstration verification for SIH26107.'
+            disclaimer: 'Prototype demonstration verification for SIH26108.'
           }
         };
       }
@@ -482,7 +482,7 @@
             is_valid: !cRec.is_fraud,
             details: cRec,
             is_prototype: true,
-            disclaimer: 'Prototype demonstration verification for SIH26107.'
+            disclaimer: 'Prototype demonstration verification for SIH26108.'
           }
         };
       }
@@ -506,7 +506,7 @@
               tested_date: 'Recently Hallmarked'
             },
             is_prototype: true,
-            disclaimer: 'Prototype demonstration verification for SIH26107.'
+            disclaimer: 'Prototype demonstration verification for SIH26108.'
           }
         };
       }
@@ -626,7 +626,7 @@
           }],
           source: "ManakSetu Grounded Knowledge Engine (Demo Mode)",
           confidence: "Grounded in Retrieved BIS Specifications",
-          disclaimer: "ManakSetu is an educational prototype assistant developed for SIH26107.",
+          disclaimer: "ManakSetu is an educational prototype assistant developed for SIH26108.",
           is_refusal: false,
           structured_sections: structuredSections,
           citations: []
@@ -642,3 +642,4 @@
     module.exports = ManakSetuApi;
   }
 })();
+
