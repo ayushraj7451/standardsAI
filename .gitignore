@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+dist/
+
+# Environment Variables
+.env
+.env*.local
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# Local databases
+*.db
+*.sqlite3
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.swp
+*.local

@@ -1,0 +1,1239 @@
+{% extends "base.html" %}
+
+{% block title %}ManakSetu — Intelligent Access to Indian Standards and BIS Services{% endblock %}
+
+{% block content %}
+  <!-- 1. HERO & STANDARDS SEARCH SECTION -->
+  <section class="hero-banner">
+    <div class="container">
+      <div class="hero-grid">
+        
+        <!-- Left: Search & Value Proposition -->
+        <div>
+          <div class="hero-tag">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            <span>Smart India Hackathon Prototype (SIH26107)</span>
+          </div>
+
+          <h1 class="hero-title">
+            MANAK SETU<br>
+            <span style="font-size:1.35rem; font-weight:600; color:#cbd5e1; display:block; margin-top:0.35rem; line-height:1.2;">Your Digital Bridge to BIS Standards &amp; Services</span>
+          </h1>
+
+          <p class="hero-desc">
+            Helping Indian industries, MSMEs, and consumers discover standards, understand certification requirements, verify marks, estimate statutory costs, and locate testing laboratories.
+          </p>
+
+          <!-- Primary & Secondary CTAs per Presentation Requirements -->
+          <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-bottom:1.25rem;">
+            <a href="/standards" class="btn btn-primary" style="padding:0.6rem 1.25rem; font-size:0.88rem; font-weight:700; display:inline-flex; align-items:center; gap:0.5rem; text-decoration:none;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Find a Standard</span>
+            </a>
+            <a href="/verify" class="btn" style="padding:0.6rem 1.25rem; font-size:0.88rem; font-weight:700; display:inline-flex; align-items:center; gap:0.5rem; text-decoration:none; background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.3);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Verify a Product</span>
+            </a>
+          </div>
+
+          <!-- Search Form with Dual Actions: Search Standards & Ask ManakBot -->
+          <form id="heroSearchForm" action="/standards" method="GET" class="hero-search-form" onsubmit="handleHeroSearchSubmit(event)">
+            <div class="hero-search-input-wrap">
+              <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <input 
+                type="text" 
+                name="q" 
+                id="heroSearchInput"
+                class="hero-search-input" 
+                placeholder="Search Indian Standards, products, or ask questions (e.g. geyser, cement, IS 2082)..." 
+                autocomplete="off"
+                required
+              >
+              <button type="button" id="heroClearSearchBtn" class="search-clear-btn" onclick="clearHeroSearch()" title="Clear search">&times;</button>
+            </div>
+            <div class="hero-search-btn-group">
+              <button type="submit" class="hero-btn-primary" title="Search Standards Catalogue">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <span>Search Standards</span>
+              </button>
+              <button type="button" class="hero-btn-secondary" onclick="askManakBotFromHome()" title="Consult Grounded AI Assistant">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span>Ask ManakBot</span>
+              </button>
+            </div>
+
+            <!-- Live Auto-suggest Dropdown -->
+            <div id="heroLiveSuggestions" class="search-autocomplete-dropdown"></div>
+          </form>
+
+          <!-- Popular Search Chips -->
+          <div class="search-chips">
+            <span class="search-chips-label">Popular Standards:</span>
+            <a href="/standards?q=geyser" class="search-chip">Geysers (IS 2082)</a>
+            <a href="/standards?q=cement" class="search-chip">Cement (IS 1489)</a>
+            <a href="/standards?q=helmet" class="search-chip">Helmets (IS 4151)</a>
+            <a href="/standards?q=baby+doll" class="search-chip">Baby Toys (IS 9873)</a>
+            <a href="/standards?q=pressure+cooker" class="search-chip">Pressure Cookers (IS 2347)</a>
+            <a href="/standards?q=electrical+cable" class="search-chip">Cables (IS 9968)</a>
+            <a href="/verify?huid=AK79B2&subtab=huid" class="search-chip">Gold Hallmark (HUID)</a>
+          </div>
+        </div>
+
+        <!-- Right: Honest Prototype Dataset & BIS Scope Dashboard -->
+        <div>
+          <div class="matrix-card">
+            <div class="matrix-header">
+              <h3>Prototype Dataset &amp; Scope</h3>
+              <span class="badge badge-gov" style="background:rgba(217,119,6,0.25); color:#fef3c7; border:1px solid rgba(217,119,6,0.4);">SIH26107 Prototype</span>
+            </div>
+
+            <div class="matrix-grid">
+              <div class="matrix-stat" style="border-left:4px solid #d97706; padding:0.75rem 0.85rem; background:#ffffff;">
+                <div class="stat-num" style="color:#0f2d52; font-weight:900; font-size:1.45rem;">{{ standards_count or 572 }}</div>
+                <div class="stat-label" style="color:#334155; font-weight:700; font-size:0.75rem;">Standards in Prototype Dataset</div>
+              </div>
+              <div class="matrix-stat" style="border-left:4px solid #2563eb; padding:0.75rem 0.85rem; background:#ffffff;">
+                <div class="stat-num" style="color:#1e3a8a; font-weight:900; font-size:1.45rem;">{{ total_standards_scope or '21,000+' }}</div>
+                <div class="stat-label" style="color:#334155; font-weight:700; font-size:0.75rem;">Total in Official BIS Catalog</div>
+              </div>
+              <div class="matrix-stat" style="border-left:4px solid #059669; padding:0.75rem 0.85rem; background:#ffffff;">
+                <div class="stat-num" style="color:#065f46; font-weight:900; font-size:1.45rem;">{{ labs_count or 12 }}</div>
+                <div class="stat-label" style="color:#334155; font-weight:700; font-size:0.75rem;">Curated Test Laboratories</div>
+              </div>
+              <div class="matrix-stat" style="border-left:4px solid #dc2626; padding:0.75rem 0.85rem; background:#ffffff;">
+                <div class="stat-num" style="color:#991b1b; font-weight:900; font-size:1.45rem;">{{ qco_count or 760 }}+</div>
+                <div class="stat-label" style="color:#334155; font-weight:700; font-size:0.75rem;">Compulsory Quality Orders (QCO)</div>
+              </div>
+            </div>
+
+            <!-- Quick Action Gateways -->
+            <div class="matrix-gateways">
+              <a href="/verify?subtab=huid" class="matrix-btn">
+                <div>
+                  <div style="font-size:0.75rem; color:var(--gov-900);">Verify HUID Code</div>
+                  <div style="font-size:0.68rem; color:var(--slate-500); font-weight:normal;">Gold Hallmark Purity</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--emerald-700)" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </a>
+
+              <a href="/estimator" class="matrix-btn">
+                <div>
+                  <div style="font-size:0.75rem; color:var(--gov-900);">MSME 50% Concession</div>
+                  <div style="font-size:0.68rem; color:var(--slate-500); font-weight:normal;">Indicative Fee Calculator</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gov-800)" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+              </a>
+            </div>
+
+            <div style="margin-top:0.75rem; padding-top:0.6rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; font-size:0.68rem; color:var(--slate-300);">
+              <span>Educational SIH Demonstration</span>
+              <span style="font-family:var(--font-mono); color:#fef08a; font-weight:700;">Official: manakonline.in</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. QUICK SERVICES (5 PRIMARY MODULES GRID) -->
+  <section style="padding: 2.5rem 0 1.5rem; background-color: var(--slate-50); border-bottom: 1px solid var(--slate-200);">
+    <div class="container">
+      <div class="section-title-strip">
+        <div>
+          <span class="home-section-tag">Presentation Core Modules</span>
+          <h2 class="section-title">Core Service Modules</h2>
+          <p class="section-subtitle">Five essential functional pillars for manufacturers, MSME applicants, and consumers</p>
+        </div>
+      </div>
+
+      <div class="quick-services-grid">
+        
+        <!-- Module 1: StandardFinder AI -->
+        <div class="service-dash-card">
+          <div>
+            <div class="service-card-top">
+              <div class="service-icon-square blue">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              </div>
+              <span class="badge badge-gov">Module 1</span>
+            </div>
+            <h3 class="service-card-title">StandardFinder AI</h3>
+            <p class="service-card-desc">
+              Search 572 curated standards, technical divisions, and mandatory QCOs using plain English or product names.
+            </p>
+          </div>
+          <div class="service-card-footer">
+            <a href="/standards" class="service-card-link">
+              <span>Find Standards</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Module 2: BIS Scheme & License Navigator -->
+        <div class="service-dash-card">
+          <div>
+            <div class="service-card-top">
+              <div class="service-icon-square green">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </div>
+              <span class="badge badge-green">Module 2</span>
+            </div>
+            <h3 class="service-card-title">Scheme &amp; License Navigator</h3>
+            <p class="service-card-desc">
+              Interactive 4-step wizard &amp; 10-stage sequential journey from factory audit to ISI license grant.
+            </p>
+          </div>
+          <div class="service-card-footer">
+            <a href="/certification" class="service-card-link">
+              <span>Explore Navigator</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Module 3: ManakBot AI -->
+        <div class="service-dash-card">
+          <div>
+            <div class="service-card-top">
+              <div class="service-icon-square purple" style="background:#f3e8ff; color:#7e22ce;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              </div>
+              <span class="badge badge-navy">Module 3</span>
+            </div>
+            <h3 class="service-card-title">ManakBot AI</h3>
+            <p class="service-card-desc">
+              Grounded intelligent consultation answering procedural, testing, and QCO compliance questions with sources.
+            </p>
+          </div>
+          <div class="service-card-footer">
+            <a href="/manakbot" class="service-card-link">
+              <span>Ask ManakBot</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Module 4: TrueMark Verifier -->
+        <div class="service-dash-card">
+          <div>
+            <div class="service-card-top">
+              <div class="service-icon-square amber">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <span class="badge badge-gold">Module 4</span>
+            </div>
+            <h3 class="service-card-title">TrueMark Verifier</h3>
+            <p class="service-card-desc">
+              Verify 6-character gold HUID laser marks and 7-digit ISI CM/L manufacturing licenses against registry data.
+            </p>
+          </div>
+          <div class="service-card-footer">
+            <a href="/verify" class="service-card-link">
+              <span>Verify Product</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Module 5: Smart Cost Estimator & Lab Locator -->
+        <div class="service-dash-card">
+          <div>
+            <div class="service-card-top">
+              <div class="service-icon-square sky">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/></svg>
+              </div>
+              <span class="badge badge-green">Module 5</span>
+            </div>
+            <h3 class="service-card-title">Cost Estimator &amp; Labs</h3>
+            <p class="service-card-desc">
+              Calculate indicative 50% MSME fee relief and locate NABL-accredited test laboratories across India.
+            </p>
+          </div>
+          <div class="service-card-footer">
+            <div style="display:flex; justify-content:space-between; width:100%;">
+              <a href="/estimator" class="service-card-link"><span>Estimator &rarr;</span></a>
+              <a href="/labs" class="service-card-link"><span>Labs &rarr;</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 2B. PROTOTYPE DATASET EXPLORER (LIVE INDEXED STANDARDS SHOWCASE) -->
+  <section id="prototypeDatasetSection" style="padding: 2.75rem 0 2rem; background-color: #ffffff; border-bottom: 1px solid var(--slate-200);">
+    <div class="container">
+      <div class="section-title-strip" style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
+        <div>
+          <span class="home-section-tag" style="background:#fef3c7; color:#92400e; border:1px solid #fde68a;">Curated Hackathon Repository</span>
+          <h2 class="section-title" style="margin-bottom:0.25rem;">Prototype Dataset Explorer: Live Indexed Standards</h2>
+          <p class="section-subtitle">
+            Directly browse authentic Indian Standards from our 572-standard indexed repository — featuring mandatory Quality Control Orders (QCOs), testing protocols, and recognized testing laboratories.
+          </p>
+        </div>
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <span class="badge badge-gov" style="font-size:0.8rem; padding:0.4rem 0.75rem;">
+            572 Indexed Standards • 100% Real Reference Data
+          </span>
+        </div>
+      </div>
+
+      <!-- Sector Filter Tabs -->
+      <div style="display:flex; gap:0.5rem; overflow-x:auto; padding-bottom:0.75rem; margin-bottom:1.5rem;" class="no-scrollbar">
+        <button type="button" class="dataset-filter-btn active" data-filter="all" onclick="filterHomeDataset('all')">All Sectors (8 Featured)</button>
+        <button type="button" class="dataset-filter-btn" data-filter="civil" onclick="filterHomeDataset('civil')">Civil &amp; Construction</button>
+        <button type="button" class="dataset-filter-btn" data-filter="electrical" onclick="filterHomeDataset('electrical')">Electrical &amp; Electronics</button>
+        <button type="button" class="dataset-filter-btn" data-filter="safety" onclick="filterHomeDataset('safety')">Automotive &amp; Safety</button>
+        <button type="button" class="dataset-filter-btn" data-filter="consumer" onclick="filterHomeDataset('consumer')">Consumer &amp; Toys</button>
+        <button type="button" class="dataset-filter-btn" data-filter="food" onclick="filterHomeDataset('food')">Food &amp; Water</button>
+      </div>
+
+      <!-- Dataset Cards Grid -->
+      <div class="dataset-cards-grid">
+        
+        <!-- Standard 1: IS 1489 (Cement) -->
+        <div class="dataset-card" data-sector="civil">
+          <div>
+            <div class="dataset-card-header">
+              <div>
+                <span class="dataset-card-code">IS 1489 (Part 1): 2015</span>
+                <span class="badge badge-gov" style="margin-left:4px; font-size:0.68rem;">Civil Eng.</span>
+              </div>
+              <span class="badge badge-qco" style="font-size:0.68rem;">Mandatory QCO</span>
+            </div>
+            <h3 class="dataset-card-title">Portland Pozzolana Cement (Fly Ash Based)</h3>
+            <p class="dataset-card-desc">
+              Mandatory standard governing manufacture and supply of fly ash-based PPC cement with 15%–35% fly ash intergrinding for high durability construction.
+            </p>
+            <div class="dataset-specs-wrap">
+              <div class="dataset-specs-title">Mandatory Test Benchmarks (BIS STI)</div>
+              <div class="dataset-specs-list">
+                <span class="dataset-spec-pill">Compressive Strength &ge; 33 MPa</span>
+                <span class="dataset-spec-pill">Soundness &le; 10 mm</span>
+                <span class="dataset-spec-pill">Initial Setting &ge; 30 min</span>
+              </div>
+            </div>
+            <div style="font-size:0.72rem; color:var(--slate-500); margin-bottom:0.85rem;">
+              <strong>Recognized Apex Lab:</strong> National Council for Cement &amp; Building Materials (NCCBM), Ballabgarh
+            </div>
+          </div>
+          <div class="dataset-card-actions">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.4rem;">
+              <a href="/standards?q=IS+1489" class="btn btn-primary btn-sm" style="font-size:0.72rem;">View Standard &rarr;</a>
+              <a href="/verify?cml=6200145&subtab=cml" class="btn btn-emerald btn-sm" style="font-size:0.72rem;">Verify License</a>
+            </div>
+            <a href="/manakbot?prompt={{ ('What are the mandatory testing parameters and STI requirements for Portland Pozzolana Cement under IS 1489?') | urlencode }}" class="btn btn-secondary btn-sm" style="font-size:0.72rem; justify-content:center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span>Ask ManakBot on IS 1489</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Standard 2: IS 2082 (Geysers) -->
+        <div class="dataset-card" data-sector="electrical">
+          <div>
+            <div class="dataset-card-header">
+              <div>
+                <span class="dataset-card-code">IS 2082: 2018</span>
+                <span class="badge badge-gov" style="margin-left:4px; font-size:0.68rem;">Electrical</span>
+              </div>
+              <span class="badge badge-qco" style="font-size:0.68rem;">Mandatory QCO</span>
+            </div>
+            <h3 class="dataset-card-title">Stationary Storage Electric Water Heaters (Geysers)</h3>
+            <p class="dataset-card-desc">
+              Mandatory safety and thermal efficiency standard for domestic storage water heaters up to 250V AC single-phase and 1.0 MPa operating pressure.
+            </p>
+            <div class="dataset-specs-wrap">
+              <div class="dataset-specs-title">Mandatory Test Benchmarks (BIS STI)</div>
+              <div class="dataset-specs-list">
+                <span class="dataset-spec-pill">Standing Heat Loss Test</span>
+                <span class="dataset-spec-pill">Hydrostatic Pressure (2.0 MPa)</span>
+                <span class="dataset-spec-pill">Earth Continuity &le; 0.1 &Omega;</span>
+              </div>
+            </div>
+            <div style="font-size:0.72rem; color:var(--slate-500); margin-bottom:0.85rem;">
+              <strong>Recognized Apex Lab:</strong> BIS Central Laboratory, Sahibabad &amp; ERDA, Vadodara
+            </div>
+          </div>
+          <div class="dataset-card-actions">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.4rem;">
+              <a href="/standards?q=IS+2082" class="btn btn-primary btn-sm" style="font-size:0.72rem;">View Standard &rarr;</a>
+              <a href="/verify?cml=8400192&subtab=cml" class="btn btn-emerald btn-sm" style="font-size:0.72rem;">Verify License</a>
+            </div>
+            <a href="/manakbot?prompt={{ ('What are the electrical safety and standing loss test requirements for geysers under IS 2082?') | urlencode }}" class="btn btn-secondary btn-sm" style="font-size:0.72rem; justify-content:center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span>Ask ManakBot on IS 2082</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Standard 3: IS 4151 (Motorcycle Helmets) -->
+        <div class="dataset-card" data-sector="safety">
+          <div>
+            <div class="dataset-card-header">
+              <div>
+                <span class="dataset-card-code">IS 4151: 2015</span>
+                <span class="badge badge-gov" style="margin-left:4px; font-size:0.68rem;">Automotive</span>
+              </div>
+              <span class="badge badge-qco" style="font-size:0.68rem;">Mandatory QCO</span>
+            </div>
+            <h3 class="dataset-card-title">Protective Helmets for Two-Wheeler Motorcyclists</h3>
+            <p class="dataset-card-desc">
+              Mandatory helmet standard enforcing strict cranial shock absorption, retention system resistance, and peripheral vision to safeguard motorcycle riders.
+            </p>
+            <div class="dataset-specs-wrap">
+              <div class="dataset-specs-title">Mandatory Test Benchmarks (BIS STI)</div>
+              <div class="dataset-specs-list">
+                <span class="dataset-spec-pill">Drop Impact Shock &le; 300g</span>
+                <span class="dataset-spec-pill">Chin-Strap Dynamic Slippage</span>
+                <span class="dataset-spec-pill">Audibility &amp; Vision Angle &ge; 105&deg;</span>
+              </div>
+            </div>
+            <div style="font-size:0.72rem; color:var(--slate-500); margin-bottom:0.85rem;">
+              <strong>Recognized Apex Lab:</strong> Automotive Research Association of India (ARAI), Pune
+            </div>
+          </div>
+          <div class="dataset-card-actions">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.4rem;">
+              <a href="/standards?q=IS+4151" class="btn btn-primary btn-sm" style="font-size:0.72rem;">View Standard &rarr;</a>
+              <a href="/verify?subtab=cml" class="btn btn-emerald btn-sm" style="font-size:0.72rem;">Verify Helmet CM/L</a>
+            </div>
+            <a href="/manakbot?prompt={{ ('What are the shock absorption and chin strap test standards for two wheeler helmets under IS 4151?') | urlencode }}" class="btn btn-secondary btn-sm" style="font-size:0.72rem; justify-content:center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span>Ask ManakBot on IS 4151</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Standard 4: IS 3854 (Electrical Switches) -->
+        <div class="dataset-card" data-sector="electrical">
+          <div>
+            <div class="dataset-card-header">
+              <div>
+                <span class="dataset-card-code">IS 3854: 1988</span>
+                <span class="badge badge-gov" style="margin-left:4px; font-size:0.68rem;">Electrical</span>
+              </div>
+              <span class="badge badge-qco" style="font-size:0.68rem;">Mandatory QCO</span>
+            </div>
+            <h3 class="dataset-card-title">Switches for Domestic Fixed Electrical Installations</h3>
+            <p class="dataset-card-desc">
+              Prescribes electrical and mechanical endurance, contact reliability, and fire resistance for domestic wall switches rated up to 250V and 16A.
+            </p>
+            <div class="dataset-specs-wrap">
+              <div class="dataset-specs-title">Mandatory Test Benchmarks (BIS STI)</div>
+              <div class="dataset-specs-list">
+                <span class="dataset-spec-pill">40,000 Operations Endurance</span>
+                <span class="dataset-spec-pill">Temperature Rise &le; 45 K</span>
+                <span class="dataset-spec-pill">Dielectric Strength 2000V AC</span>
+              </div>
+            </div>
+            <div style="font-size:0.72rem; color:var(--slate-500); margin-bottom:0.85rem;">
+              <strong>Recognized Apex Lab:</strong> Central Power Research Institute (CPRI), Bengaluru
+            </div>
+          </div>
+          <div class="dataset-card-actions">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.4rem;">
+              <a href="/standards?q=IS+3854" class="btn btn-primary btn-sm" style="font-size:0.72rem;">View Standard &rarr;</a>
+              <a href="/verify?cml=7100341&subtab=cml" class="btn btn-emerald btn-sm" style="font-size:0.72rem;">Verify License</a>
+            </div>
+            <a href="/manakbot?prompt={{ ('What are the endurance and temperature rise test parameters for electrical switches under IS 3854?') | urlencode }}" class="btn btn-secondary btn-sm" style="font-size:0.72rem; justify-content:center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span>Ask ManakBot on IS 3854</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Standard 5: IS 9873 (Part 1) (Safety of Toys) -->
+        <div class="dataset-card" data-sector="consumer">
+          <div>
+            <div class="dataset-card-header">
+              <div>
+                <span class="dataset-card-code">IS 9873 (Part 1): 2019</span>
+                <span class="badge badge-gov" style="margin-left:4px; font-size:0.68rem;">Toys &amp; Kids</span>
+              </div>
+              <span class="badge badge-qco" style="font-size:0.68rem;">Mandatory QCO</span>
+            </div>
+            <h3 class="dataset-card-title">Safety of Toys — Mechanical &amp; Physical Properties</h3>
+            <p class="dataset-card-desc">
+              Mandatory DPIIT Quality Control Order governing all toys for children under 14 years to prevent choking hazards, sharp edge cuts, and ingestion risks.
+            </p>
+            <div class="dataset-specs-wrap">
+              <div class="dataset-specs-title">Mandatory Test Benchmarks (BIS STI)</div>
+              <div class="dataset-specs-list">
+                <span class="dataset-spec-pill">Small Parts Choke Cylinder Test</span>
+                <span class="dataset-spec-pill">Sharp Edges &amp; Points Evaluation</span>
+                <span class="dataset-spec-pill">Tensile, Torque &amp; Drop Impact</span>
+              </div>
+            </div>
+            <div style="font-size:0.72rem; color:var(--slate-500); margin-bottom:0.85rem;">
+              <strong>Recognized Apex Lab:</strong> National Test House (NTH), Kolkata &amp; BIS CL
+            </div>
+          </div>
+          <div class="dataset-card-actions">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.4rem;">
+              <a href="/standards?q=IS+9873" class="btn btn-primary btn-sm" style="font-size:0.72rem;">View Standard &rarr;</a>
+              <a href="/verify?subtab=cml" class="btn btn-emerald btn-sm" style="font-size:0.72rem;">Verify Toy License</a>
+            </div>
+            <a href="/manakbot?prompt={{ ('What are the mandatory toy safety mechanical and choking hazard tests under IS 9873 Part 1?') | urlencode }}" class="btn btn-secondary btn-sm" style="font-size:0.72rem; justify-content:center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span>Ask ManakBot on IS 9873</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Standard 6: IS 2347 (Pressure Cookers) -->
+        <div class="dataset-card" data-sector="consumer">
+          <div>
+            <div class="dataset-card-header">
+              <div>
+                <span class="dataset-card-code">IS 2347: 2017</span>
+                <span class="badge badge-gov" style="margin-left:4px; font-size:0.68rem;">Cookware</span>
+              </div>
+              <span class="badge badge-qco" style="font-size:0.68rem;">Mandatory QCO</span>
+            </div>
+            <h3 class="dataset-card-title">Domestic Pressure Cookers (Aluminium &amp; Steel)</h3>
+            <p class="dataset-card-desc">
+              Mandatory consumer safety specification establishing burst pressure thresholds, fusible plug thermal release, and hydrostatic integrity for household cookers.
+            </p>
+            <div class="dataset-specs-wrap">
+              <div class="dataset-specs-title">Mandatory Test Benchmarks (BIS STI)</div>
+              <div class="dataset-specs-list">
+                <span class="dataset-spec-pill">Hydrostatic Proof Pressure &ge; 200 kPa</span>
+                <span class="dataset-spec-pill">Safety Valve Burst 130–170 kPa</span>
+                <span class="dataset-spec-pill">Operating Pressure 100 kPa Test</span>
+              </div>
+            </div>
+            <div style="font-size:0.72rem; color:var(--slate-500); margin-bottom:0.85rem;">
+              <strong>Recognized Apex Lab:</strong> BIS Central Laboratory, Ghaziabad &amp; NTH Mumbai
+            </div>
+          </div>
+          <div class="dataset-card-actions">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.4rem;">
+              <a href="/standards?q=IS+2347" class="btn btn-primary btn-sm" style="font-size:0.72rem;">View Standard &rarr;</a>
+              <a href="/verify?subtab=cml" class="btn btn-emerald btn-sm" style="font-size:0.72rem;">Verify Cooker CM/L</a>
+            </div>
+            <a href="/manakbot?prompt={{ ('What are the burst pressure and safety valve test requirements for domestic pressure cookers under IS 2347?') | urlencode }}" class="btn btn-secondary btn-sm" style="font-size:0.72rem; justify-content:center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span>Ask ManakBot on IS 2347</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Standard 7: IS 9968 (Part 1) (Elastomer Cables) -->
+        <div class="dataset-card" data-sector="electrical">
+          <div>
+            <div class="dataset-card-header">
+              <div>
+                <span class="dataset-card-code">IS 9968 (Part 1): 1988</span>
+                <span class="badge badge-gov" style="margin-left:4px; font-size:0.68rem;">Cables</span>
+              </div>
+              <span class="badge badge-qco" style="font-size:0.68rem;">Mandatory QCO</span>
+            </div>
+            <h3 class="dataset-card-title">Elastomer Insulated Cables (Heavy Duty)</h3>
+            <p class="dataset-card-desc">
+              Mandatory QCO standard for rubber/elastomer insulated flexible industrial and mining electric cables for working voltages up to 1100V.
+            </p>
+            <div class="dataset-specs-wrap">
+              <div class="dataset-specs-title">Mandatory Test Benchmarks (BIS STI)</div>
+              <div class="dataset-specs-list">
+                <span class="dataset-spec-pill">High Voltage Spark Test 3 kV</span>
+                <span class="dataset-spec-pill">Conductor Resistance Verification</span>
+                <span class="dataset-spec-pill">Tensile Strength &amp; Elongation</span>
+              </div>
+            </div>
+            <div style="font-size:0.72rem; color:var(--slate-500); margin-bottom:0.85rem;">
+              <strong>Recognized Apex Lab:</strong> Central Power Research Institute (CPRI) &amp; ERDA
+            </div>
+          </div>
+          <div class="dataset-card-actions">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.4rem;">
+              <a href="/standards?q=IS+9968" class="btn btn-primary btn-sm" style="font-size:0.72rem;">View Standard &rarr;</a>
+              <a href="/calculator?standard=IS%209968" class="btn btn-amber btn-sm" style="font-size:0.72rem;">Calculate Fees</a>
+            </div>
+            <a href="/manakbot?prompt={{ ('What are the electrical spark testing and insulation resistance requirements for elastomer cables under IS 9968?') | urlencode }}" class="btn btn-secondary btn-sm" style="font-size:0.72rem; justify-content:center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span>Ask ManakBot on IS 9968</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Standard 8: IS 14543 (Packaged Drinking Water) -->
+        <div class="dataset-card" data-sector="food">
+          <div>
+            <div class="dataset-card-header">
+              <div>
+                <span class="dataset-card-code">IS 14543: 2004</span>
+                <span class="badge badge-gov" style="margin-left:4px; font-size:0.68rem;">Food &amp; Water</span>
+              </div>
+              <span class="badge badge-qco" style="font-size:0.68rem;">Mandatory QCO</span>
+            </div>
+            <h3 class="dataset-card-title">Packaged Drinking Water (Other than Mineral Water)</h3>
+            <p class="dataset-card-desc">
+              Mandatory statutory standard for packaged drinking water sealed in bottles, pouches, or 20-litre jars, ensuring zero microbial contamination and toxic heavy metals safety.
+            </p>
+            <div class="dataset-specs-wrap">
+              <div class="dataset-specs-title">Mandatory Test Benchmarks (BIS STI)</div>
+              <div class="dataset-specs-list">
+                <span class="dataset-spec-pill">E. coli &amp; Coliform: Zero / 250 ml</span>
+                <span class="dataset-spec-pill">Pesticide Residues &le; 0.0001 mg/L</span>
+                <span class="dataset-spec-pill">Total Dissolved Solids &le; 500 mg/L</span>
+              </div>
+            </div>
+            <div style="font-size:0.72rem; color:var(--slate-500); margin-bottom:0.85rem;">
+              <strong>Recognized Apex Lab:</strong> BIS Central Laboratory, Sahibabad &amp; Regional NABL Labs
+            </div>
+          </div>
+          <div class="dataset-card-actions">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.4rem;">
+              <a href="/standards?q=IS+14543" class="btn btn-primary btn-sm" style="font-size:0.72rem;">View Standard &rarr;</a>
+              <a href="/verify?subtab=cml" class="btn btn-emerald btn-sm" style="font-size:0.72rem;">Verify Water CM/L</a>
+            </div>
+            <a href="/manakbot?prompt={{ ('What are the microbiological limits, pesticide residues, and in-house laboratory testing requirements for packaged drinking water under IS 14543?') | urlencode }}" class="btn btn-secondary btn-sm" style="font-size:0.72rem; justify-content:center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span>Ask ManakBot on IS 14543</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Prototype Exploration Banner -->
+      <div style="background:linear-gradient(135deg, var(--gov-50) 0%, #ffffff 100%); border:1px solid var(--gov-200); border-radius:var(--radius-sm); padding:1.25rem 1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <div style="font-weight:800; color:var(--gov-900); font-size:1rem;">
+            Explore All 572 Indian Standards in the Full Search Directory
+          </div>
+          <div style="font-size:0.78rem; color:var(--slate-600); margin-top:2px;">
+            Filter by 14 Technical Divisions (Civil, Electrotechnical, Mechanical, Chemical, Food, Medical) or toggle Mandatory QCOs.
+          </div>
+        </div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <a href="/standards" class="btn btn-primary btn-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span>Browse Full Directory (572 Standards) &rarr;</span>
+          </a>
+          <a href="/verify?subtab=huid" class="btn btn-secondary btn-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Verify Gold HUID / CML</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3. HOW MANAKSETU HELPS (SEARCH -> UNDERSTAND -> VERIFY -> ACT) -->
+  <section style="padding: 2.5rem 0; background-color: var(--white); border-bottom: 1px solid var(--slate-200);">
+    <div class="container">
+      <div class="section-title-strip" style="text-align:center; margin-bottom:2rem; justify-content:center; flex-direction:column; align-items:center;">
+        <span class="home-section-tag">Conformity Assistance Architecture</span>
+        <h2 class="section-title" style="font-size:1.4rem;">How ManakSetu Helps</h2>
+        <p class="section-subtitle" style="max-width:650px; margin:0.35rem auto 0;">
+          Connecting natural-language user queries with structured BIS standards, conformity roadmaps, and verifiable consumer safeguards.
+        </p>
+      </div>
+
+      <div class="process-steps-grid">
+        
+        <!-- Step 1: Search -->
+        <div class="process-step-card">
+          <div class="step-card-header">
+            <div class="step-num-badge">1</div>
+            <h3 class="step-card-title">Search</h3>
+          </div>
+          <p class="step-card-desc">
+            Enter your product name, material, or keyword in plain English or Hinglish to discover matching Indian Standards.
+          </p>
+        </div>
+
+        <!-- Step 2: Understand -->
+        <div class="process-step-card">
+          <div class="step-card-header">
+            <div class="step-num-badge">2</div>
+            <h3 class="step-card-title">Understand</h3>
+          </div>
+          <p class="step-card-desc">
+            Review applicable specifications, compulsory Quality Control Orders (QCOs), testing parameters, and compliance scopes.
+          </p>
+        </div>
+
+        <!-- Step 3: Verify -->
+        <div class="process-step-card">
+          <div class="step-card-header">
+            <div class="step-num-badge">3</div>
+            <h3 class="step-card-title">Verify</h3>
+          </div>
+          <p class="step-card-desc">
+            Validate 6-character gold HUID laser marks, 7-digit ISI CM/L factory licenses, and accredited testing laboratory accreditations.
+          </p>
+        </div>
+
+        <!-- Step 4: Act -->
+        <div class="process-step-card">
+          <div class="step-card-header">
+            <div class="step-num-badge">4</div>
+            <h3 class="step-card-title">Act</h3>
+          </div>
+          <p class="step-card-desc">
+            Follow the 10-stage certification roadmap, calculate indicative 50% MSME fee concessions, and consult ManakBot RAG.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. PRODUCT → STANDARD RECOMMENDATION TOOL -->
+  <section style="padding: 2.5rem 0; background-color: var(--slate-50); border-bottom: 1px solid var(--slate-200);">
+    <div class="container">
+      <div class="rec-tool-card">
+        <div class="rec-header">
+          <div>
+            <span class="home-section-tag">Automated Standards Recommendation</span>
+            <h2 class="rec-title">Product &rarr; Indian Standard Matcher</h2>
+            <p class="rec-subtitle">Describe what your enterprise manufactures or purchases to receive ranked Indian Standard recommendations with relevance rationale.</p>
+          </div>
+          <span class="badge badge-gov">Hybrid AI &amp; BM25 Matcher</span>
+        </div>
+
+        <div class="rec-body">
+          <div class="rec-input-group">
+            <input 
+              type="text" 
+              id="recommendProductInput" 
+              class="rec-text-input" 
+              placeholder="e.g., I manufacture stainless steel water bottles, or domestic electric irons..." 
+              value="I manufacture stainless steel water bottles"
+            >
+            <button type="button" class="btn btn-primary rec-submit-btn" onclick="runProductRecommendation()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 21-4.3-4.3"/><circle cx="11" cy="11" r="8"/></svg>
+              <span>Analyze Product</span>
+            </button>
+          </div>
+
+          <!-- Quick suggestion chips -->
+          <div class="search-chips" style="margin-bottom:1.25rem;">
+            <span class="search-chips-label" style="color:var(--slate-500);">Try Examples:</span>
+            <button type="button" class="search-chip-btn" onclick="setRecommendQuery('I manufacture stainless steel water bottles')">Stainless Steel Bottles</button>
+            <button type="button" class="search-chip-btn" onclick="setRecommendQuery('Domestic pressure cookers aluminium and steel')">Pressure Cookers</button>
+            <button type="button" class="search-chip-btn" onclick="setRecommendQuery('Storage water heaters for home use')">Electric Geysers</button>
+            <button type="button" class="search-chip-btn" onclick="setRecommendQuery('Fixed electrical switches 250V')">Electrical Switches</button>
+            <button type="button" class="search-chip-btn" onclick="setRecommendQuery('Portland pozzolana cement fly ash based')">PPC Cement</button>
+          </div>
+
+          <!-- Results Container -->
+          <div id="recommendResultsArea">
+            <div class="rec-results-box">
+              <div class="rec-results-header">
+                <span class="rec-product-label">Product Understood: <strong class="text-gov-900" id="recUnderstoodText">Stainless steel water bottle</strong></span>
+                <span class="badge badge-navy">2 Standards Identified</span>
+              </div>
+              <div class="rec-cards-grid" id="recCardsGrid">
+                <!-- Card 1 -->
+                <div class="rec-result-card">
+                  <div class="rec-card-top">
+                    <span class="badge" style="background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0;">Highly Relevant</span>
+                    <span class="rec-card-code">IS 17526</span>
+                  </div>
+                  <h4 class="rec-card-heading">IS 17526 — Stainless Steel Vacuum Flasks and Insulated Flasks</h4>
+                  <p class="rec-card-rationale"><strong>Why it matches:</strong> Specifically governs portable stainless steel vacuum bottles and insulated water flasks, specifying thermal insulation efficiency and food-contact material purity.</p>
+                  <div class="rec-card-footer">
+                    <span>Source: BIS Reference Catalogue</span>
+                    <a href="/standards?q=IS+17526" class="rec-card-link">View Standard &rarr;</a>
+                  </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="rec-result-card">
+                  <div class="rec-card-top">
+                    <span class="badge" style="background:#fffbeb; color:#92400e; border:1px solid #fde68a;">Potentially Relevant</span>
+                    <span class="rec-card-code">IS 14543</span>
+                  </div>
+                  <h4 class="rec-card-heading">IS 14543 — Packaged Drinking Water (Other than Natural Mineral Water)</h4>
+                  <p class="rec-card-rationale"><strong>Why it matches:</strong> Relevant if stainless steel bottles are packaged and distributed pre-filled with drinking water under mandatory QCO compliance.</p>
+                  <div class="rec-card-footer">
+                    <span>Source: BIS Reference Catalogue</span>
+                    <a href="/standards?q=IS+14543" class="rec-card-link">View Standard &rarr;</a>
+                  </div>
+                </div>
+              </div>
+              <div class="rec-disclaimer">
+                <strong>Disclaimer:</strong> Applicability should be confirmed against current BIS/QCO information and technical schedules on <a href="https://www.manakonline.in" target="_blank" rel="noopener" class="text-gov-800 underline">manakonline.in</a>.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. STAKEHOLDER PERSPECTIVE SELECTOR ("I am a...") -->
+  <section style="padding: 2.5rem 0 1rem; background-color: var(--white); border-bottom: 1px solid var(--slate-200);">
+    <div class="container">
+      
+      <div class="audience-wrapper">
+        <div class="audience-header-bar">
+          <div>
+            <span class="home-section-tag">Stakeholder Navigation Engine</span>
+            <h2 class="audience-title">Customized Guidance &amp; Workflows: "I am a..."</h2>
+          </div>
+          <div class="audience-tabs-group" role="tablist">
+            <button type="button" class="audience-tab active" data-audience="msme" onclick="switchAudience('msme')">
+              MSMEs
+            </button>
+            <button type="button" class="audience-tab" data-audience="manufacturer" onclick="switchAudience('manufacturer')">
+              Manufacturers
+            </button>
+            <button type="button" class="audience-tab" data-audience="consumer" onclick="switchAudience('consumer')">
+              Consumers
+            </button>
+            <button type="button" class="audience-tab" data-audience="labs" onclick="switchAudience('labs')">
+              Testing Labs
+            </button>
+            <button type="button" class="audience-tab" data-audience="ecosystem" onclick="switchAudience('ecosystem')">
+              BIS Ecosystem
+            </button>
+          </div>
+        </div>
+
+        <!-- Pane 1: MSMEs -->
+        <div class="audience-pane active" data-pane="msme">
+          <div class="audience-grid">
+            <div class="audience-item">
+              <div class="audience-item-header">
+                <span class="badge badge-green">Statutory Subsidy</span>
+                <span class="audience-item-title">MSME 50% Fee Concession</span>
+              </div>
+              <p class="audience-item-desc">
+                Micro units qualify for a 50% statutory reduction on application and minimum annual marking fees under Gazette rules upon submitting valid Udyam certificates.
+              </p>
+              <a href="/estimator" class="audience-item-link">
+                <span>Calculate 50% Concessional Savings</span> &rarr;
+              </a>
+            </div>
+
+            <div class="audience-item">
+              <div class="audience-item-header">
+                <span class="badge badge-navy">Fast-Track Filing</span>
+                <span class="audience-item-title">Simplified Certification Route</span>
+              </div>
+              <p class="audience-item-desc">
+                Avail the Simplified Procedure under Scheme-I with pre-certified NABL test reports to reduce license grant processing time from 90 days to under 30 days.
+              </p>
+              <a href="/certification" class="audience-item-link">
+                <span>Explore Simplified Roadmap</span> &rarr;
+              </a>
+            </div>
+
+            <div class="audience-item">
+              <div class="audience-item-header">
+                <span class="badge badge-gold">AI Assistance</span>
+                <span class="audience-item-title">MSME Subsidies Consultation</span>
+              </div>
+              <p class="audience-item-desc">
+                Consult ManakBot to clarify Udyam eligibility, in-house lab capital expense relief, and state-level subsidy schemes for BIS compliance.
+              </p>
+              <a href="/manakbot?prompt=What+statutory+fee+concessions+and+subsidies+are+available+for+MSMEs+applying+for+BIS+ISI+certification%3F" class="audience-item-link">
+                <span>Ask ManakBot on Subsidies</span> &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pane 2: Manufacturers -->
+        <div class="audience-pane" data-pane="manufacturer">
+          <div class="audience-grid">
+            <div class="audience-item">
+              <div class="audience-item-header">
+                <span class="badge badge-navy">Factory QC</span>
+                <span class="audience-item-title">In-House Laboratory &amp; STI</span>
+              </div>
+              <p class="audience-item-desc">
+                Understand the mandatory Scheme of Testing and Inspection (STI) equipment, sampling schedules, and record maintenance required before factory inspection.
+              </p>
+              <a href="/certification" class="audience-item-link">
+                <span>View STI Testing Checklist</span> &rarr;
+              </a>
+            </div>
+
+            <div class="audience-item">
+              <div class="audience-item-header">
+                <span class="badge badge-qco">Section 16 Mandate</span>
+                <span class="audience-item-title">Compulsory QCO Compliance</span>
+              </div>
+              <p class="audience-item-desc">
+                Review over 760 products notified under mandatory Quality Control Orders where manufacturing without BIS ISI license is a criminal violation under Section 29.
+              </p>
+              <a href="/standards?qco_only=true" class="audience-item-link">
+                <span>Check Mandatory QCO Products</span> &rarr;
+              </a>
+            </div>
+
+            <div class="audience-item">
+              <div class="audience-item-header">
+                <span class="badge badge-green">Lab Sampling</span>
+                <span class="audience-item-title">Pre-Audit Testing Partners</span>
+              </div>
+              <p class="audience-item-desc">
+                Find accredited testing laboratories for initial sample verification across electrical, chemical, mechanical, and civil engineering divisions.
+              </p>
+              <a href="/labs" class="audience-item-link">
+                <span>Locate Accredited Test Facilities</span> &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pane 3: Consumers -->
+        <div class="audience-pane" data-pane="consumer">
+          <div class="audience-grid">
+            <div class="audience-item">
+              <div class="audience-item-header">
+                <span class="badge badge-gold">Gold Jewellery</span>
+                <span class="audience-item-title">6-Character HUID Verification</span>
+              </div>
+              <p class="audience-item-desc">
+                Check laser hallmark inscriptions on gold jewellery to verify jeweler registration, assaying centre credentials, and true karat purity (24K/22K/18K/14K).
+              </p>
+              <a href="/verify?subtab=huid" class="audience-item-link">
+                <span>Verify Gold Hallmark (HUID)</span> &rarr;
+              </a>
+            </div>
+
+            <div class="audience-item">
+              <div class="audience-item-header">
+                <span class="badge badge-navy">Product Safety</span>
+                <span class="audience-item-title">ISI Mark &amp; CM/L Check</span>
+              </div>
+              <p class="audience-item-desc">
+                Verify 7-digit CM/L license numbers printed below the ISI logo on appliances, cement bags, helmets, and baby toys to confirm active factory licenses.
+              </p>
+              <a href="/verify?subtab=cml" class="audience-item-link">
+                <span>Verify ISI CM/L License</span> &rarr;
+              </a>
+            </div>
+
+            <div class="audience-item">
+              <div class="audience-item-header">
+                <span class="badge badge-green">Consumer Protection</span>
+                <span class="audience-item-title">Statutory ₹45 Purity Testing</span>
+              </div>
+              <p class="audience-item-desc">
+                Every Indian citizen has the statutory right to test hallmarked jewellery at any recognized AHC for ₹45 and file complaints via National Consumer Helpline 1915.
+              </p>
+              <a href="/report" class="audience-item-link">
+                <span>File Grievance / Report Violation</span> &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pane 4: Labs -->
+        <div class="audience-pane" data-pane="labs">
+          <div class="audience-grid">
+            <div class="audience-item">
+              <div class="audience-item-header">
+                <span class="badge badge-navy">Testing Network</span>
+                <span class="audience-item-title">BIS Recognized &amp; NABL Apex Labs</span>
+              </div>
+              <p class="audience-item-desc">
+                Explore the national network of recognized testing laboratories including BIS Central Laboratory, ERDA, CPRI, NTH, and regional accredited test facilities.
+              </p>
+              <a href="/labs" class="audience-item-link">
+                <span>Browse Testing Laboratories</span> &rarr;
+              </a>
+            </div>
+
+            <div class="audience-item">
+              <div class="audience-item-header">
+                <span class="badge badge-green">Test Methods</span>
+                <span class="audience-item-title">Standardized Test Protocols</span>
+              </div>
+              <p class="audience-item-desc">
+                Review prescribed testing methods, tolerances, and calibration requirements defined in Indian Standards across electrical, mechanical, and metallurgical scopes.
+              </p>
+              <a href="/standards" class="audience-item-link">
+                <span>View Standard Test Scopes</span> &rarr;
+              </a>
+            </div>
+
+            <div class="audience-item">
+              <div class="audience-item-header">
+                <span class="badge badge-gold">Turnaround Times</span>
+                <span class="audience-item-title">Sample Processing Timelines</span>
+              </div>
+              <p class="audience-item-desc">
+                Access typical laboratory sample testing turnaround durations (5 to 15 working days) for pre-certification and factory surveillance samples.
+              </p>
+              <a href="/labs" class="audience-item-link">
+                <span>Check Laboratory Turnaround</span> &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pane 5: BIS Ecosystem -->
+        <div class="audience-pane" data-pane="ecosystem">
+          <div class="audience-grid">
+            <div class="audience-item">
+              <div class="audience-item-header">
+                <span class="badge badge-navy">Statutory Body</span>
+                <span class="audience-item-title">Bureau of Indian Standards Act, 2016</span>
+              </div>
+              <p class="audience-item-desc">
+                Governing legislative framework establishing the National Standards Body of India, mandatory product certification, hallmarking, and consumer safeguards.
+              </p>
+              <a href="/about" class="audience-item-link">
+                <span>Read Statutory Framework</span> &rarr;
+              </a>
+            </div>
+
+            <div class="audience-item">
+              <div class="audience-item-header">
+                <span class="badge badge-gold">Public Procurement</span>
+                <span class="audience-item-title">GeM Portal Integration</span>
+              </div>
+              <p class="audience-item-desc">
+                Government e-Marketplace (GeM) public procurement rules mandating valid BIS certification and standard marks for government vendor onboarding.
+              </p>
+              <a href="/standards" class="audience-item-link">
+                <span>Explore Procurement Standards</span> &rarr;
+              </a>
+            </div>
+
+            <div class="audience-item">
+              <div class="audience-item-header">
+                <span class="badge badge-green">Hackathon Mandate</span>
+                <span class="audience-item-title">SIH26107 Problem Statement</span>
+              </div>
+              <p class="audience-item-desc">
+                Smart India Hackathon 2026 civic-tech initiative to bridge industry and consumers with authentic digital access to Indian Standards and BIS services.
+              </p>
+              <a href="/about" class="audience-item-link">
+                <span>About ManakSetu Project</span> &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6. FEATURED STANDARD: CEMENT INDUSTRY SHOWCASE -->
+  <section style="padding: 2rem 0; background-color: var(--slate-50); border-bottom: 1px solid var(--slate-200);">
+    <div class="container">
+      
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.75rem; flex-wrap:wrap; gap:0.5rem;">
+        <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+          <span style="font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; color:var(--slate-500);">Featured Standard</span>
+          <span style="color:var(--slate-300);">•</span>
+          <span style="font-size:0.72rem; font-family:var(--font-mono); color:var(--slate-500);">Mandatory QCO — Construction Sector</span>
+        </div>
+        <a href="/standards?q=cement" style="font-size:0.78rem; font-weight:700; color:var(--gov-800);">View All Cement Standards &rarr;</a>
+      </div>
+
+      <!-- Featured Standard Card -->
+      <div class="featured-standard-card">
+        
+        <!-- Header -->
+        <div class="featured-header">
+          <div class="featured-title-group">
+            <div class="service-icon-square blue">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v7.31M14 9.3V1.99M8.5 2h7M14 9.3a6.5 6.5 0 1 1-4 0"/></svg>
+            </div>
+            <div>
+              <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+                <h2 style="font-size:1.05rem; font-weight:800; color:var(--gov-900); margin:0;">IS 1489 (Part 1) &amp; IS 12269: 2013</h2>
+                <span class="badge badge-qco">QCO Mandatory in Force</span>
+              </div>
+              <p style="font-size:0.78rem; color:var(--slate-500); margin-top:0.15rem; margin-bottom:0;">
+                Portland Pozzolana Cement (Fly Ash Based) &amp; 53 Grade Ordinary Portland Cement — BIS Reference
+              </p>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:0.4rem; flex-wrap:wrap;">
+            <span class="badge" style="background:#fef2f2; color:#991b1b; border:1px solid #fecaca;">PPC: RED LETTERING</span>
+            <span class="badge" style="background:#f1f5f9; color:#0f172a; border:1px solid #cbd5e1;">OPC: BLACK LETTERING</span>
+          </div>
+        </div>
+
+        <!-- 3 Columns -->
+        <div class="featured-body-grid">
+          
+          <!-- Col 1: Mandatory Testing -->
+          <div class="featured-col">
+            <h4>Indicative Testing Parameters (BIS Reference)</h4>
+            <ul class="featured-specs-list">
+              <li>
+                <span style="color:var(--slate-600);">Compressive Strength (28d):</span>
+                <span>&ge; 33 / 53 MPa</span>
+              </li>
+              <li>
+                <span style="color:var(--slate-600);">Soundness (Le-Chatelier):</span>
+                <span>&le; 10 mm</span>
+              </li>
+              <li>
+                <span style="color:var(--slate-600);">Initial Setting Time:</span>
+                <span>&ge; 30 min (Final &le; 600 min)</span>
+              </li>
+              <li>
+                <span style="color:var(--slate-600);">Standard Consistency:</span>
+                <span>28% - 32%</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 2: Recognized Testing Labs -->
+          <div class="featured-col">
+            <h4>Recognized Testing Facilities</h4>
+            <div style="font-size:0.78rem; color:var(--slate-700); line-height:1.5; margin-bottom:0.6rem;">
+              <strong style="color:var(--gov-900);">National Council for Cement &amp; Building Materials (NCCBM):</strong>
+              <div>Apex test laboratories at Ballabgarh (Haryana) &amp; Hyderabad (Telangana).</div>
+            </div>
+            <div style="font-size:0.78rem; color:var(--slate-700); line-height:1.5;">
+              <strong style="color:var(--gov-900);">National Test House (NTH):</strong>
+              <div>Testing centres at Kolkata, Mumbai, Chennai, and Ghaziabad.</div>
+            </div>
+            <a href="/labs?standard=IS+1489" style="display:inline-block; margin-top:0.6rem; font-size:0.75rem; font-weight:700; color:var(--gov-800);">Locate Cement Testing Labs &rarr;</a>
+          </div>
+
+          <!-- Col 3: Interactive Verification Gateways -->
+          <div class="featured-col">
+            <h4>Interactive Verification Gateways</h4>
+            <div style="display:flex; flex-direction:column; gap:0.45rem;">
+              <a href="/verify?cml=6200145" class="btn btn-emerald btn-sm" style="justify-content:flex-start;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>Verify UltraTech Cement (CM/L-6200145)</span>
+              </a>
+
+              <a href="/calculator?standard=IS%201489" class="btn btn-amber btn-sm" style="justify-content:flex-start;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/></svg>
+                <span>Calculate Indicative MSME Concession</span>
+              </a>
+
+              <a href="/standards/IS-1489" class="btn btn-secondary btn-sm" style="justify-content:flex-start;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                <span>View Full Standard &amp; 10-Stage Roadmap</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 7. TRUSTED RESOURCES DIRECTORY -->
+  <section style="padding: 2.5rem 0; background-color: var(--white); border-bottom: 1px solid var(--slate-200);">
+    <div class="container">
+      <div class="section-title-strip">
+        <div>
+          <span class="home-section-tag">Government &amp; Statutory Portals</span>
+          <h2 class="section-title">Trusted Resources &amp; Official Portals</h2>
+          <p class="section-subtitle">Verified official portals for statutory license filings, gazette notifications, testing standards, and consumer redressal</p>
+        </div>
+      </div>
+
+      <div class="trusted-portals-grid">
+        
+        <!-- Portal 1: BIS Official -->
+        <a href="https://www.bis.gov.in" target="_blank" rel="noopener" class="trusted-portal-card">
+          <div class="trusted-card-top">
+            <div class="service-icon-square blue">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <div>
+              <h3 class="trusted-portal-title">BIS Official Portal</h3>
+              <span class="trusted-portal-url">bis.gov.in</span>
+            </div>
+          </div>
+          <p class="trusted-portal-desc">
+            Official Bureau of Indian Standards website for organizational notifications, committee schedules, and standards drafting.
+          </p>
+        </a>
+
+        <!-- Portal 2: e-BIS ManakOnline -->
+        <a href="https://www.manakonline.in" target="_blank" rel="noopener" class="trusted-portal-card">
+          <div class="trusted-card-top">
+            <div class="service-icon-square green">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6z"/></svg>
+            </div>
+            <div>
+              <h3 class="trusted-portal-title">e-BIS ManakOnline</h3>
+              <span class="trusted-portal-url">manakonline.in</span>
+            </div>
+          </div>
+          <p class="trusted-portal-desc">
+            Official submission portal for Scheme-I ISI licenses, laboratory accreditation, CRS registration, and surveillance test reports.
+          </p>
+        </a>
+
+        <!-- Portal 3: National Consumer Helpline -->
+        <a href="https://consumerhelpline.gov.in" target="_blank" rel="noopener" class="trusted-portal-card">
+          <div class="trusted-card-top">
+            <div class="service-icon-square amber">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <h3 class="trusted-portal-title">National Consumer Helpline</h3>
+              <span class="trusted-portal-url">consumerhelpline.gov.in (1915)</span>
+            </div>
+          </div>
+          <p class="trusted-portal-desc">
+            Government helpline for lodging consumer grievances regarding substandard certified goods, fake hallmarking, and warranty defaults.
+          </p>
+        </a>
+
+        <!-- Portal 4: DPIIT Ministry of Commerce -->
+        <a href="https://dpiit.gov.in" target="_blank" rel="noopener" class="trusted-portal-card">
+          <div class="trusted-card-top">
+            <div class="service-icon-square sky">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div>
+              <h3 class="trusted-portal-title">DPIIT — Ministry of Commerce</h3>
+              <span class="trusted-portal-url">dpiit.gov.in</span>
+            </div>
+          </div>
+          <p class="trusted-portal-desc">
+            Department for Promotion of Industry and Internal Trade: issuing authority for mandatory Quality Control Orders (QCOs).
+          </p>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. MANAKBOT AI BANNER -->
+  <section style="padding: 2.5rem 0; background-color: var(--gov-50); border-top: 1px solid var(--slate-200); border-bottom: 1px solid var(--slate-200);">
+    <div class="container">
+      <div class="ai-banner-card">
+        <div class="ai-banner-text">
+          <span class="badge badge-gov" style="margin-bottom:0.4rem;">AI-Assisted Standards Consultation</span>
+          <h3 class="ai-banner-title">Have Questions Regarding BIS Certification?</h3>
+          <p class="ai-banner-desc">
+            ManakBot provides grounded answers derived from retrieved Indian Standards in the current prototype dataset. 
+            Ask about testing protocols, laboratory requirements, fee structures, or active QCO deadlines.
+          </p>
+        </div>
+
+        <div class="ai-banner-actions">
+          <a href="/chatbot" class="btn btn-primary" style="white-space:nowrap;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span>Consult ManakBot</span>
+          </a>
+          <a href="/calculator" class="btn btn-secondary" style="white-space:nowrap;">
+            <span>Calculate Fees</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

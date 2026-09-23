@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}ManakBot AI — Grounded Indian Standards Consultation | ManakSetu{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 1.5rem; padding-bottom: 3rem;">
+  
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="/">Home</a>
+    <span class="divider">/</span>
+    <span class="current">ManakBot AI Assistant</span>
+  </div>
+
+  <!-- Page Header -->
+  <div class="section-title-strip">
+    <div>
+      <h1 class="section-title">ManakBot — Intelligent Standards Assistant</h1>
+      <p class="section-subtitle">
+        Intelligent queries grounded strictly in retrieved Indian Standards and Quality Control Orders from the prototype knowledge base
+      </p>
+    </div>
+    <span class="badge badge-gov" style="font-size:0.75rem; padding:0.3rem 0.65rem;">Grounded RAG • Zero Hallucination Guard</span>
+  </div>
+
+  <!-- Chat Window -->
+  <div class="chat-window">
+    
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <div style="display:flex; align-items:center; gap:0.6rem;">
+        <div style="width:10px; height:10px; border-radius:50%; background-color:#4ade80;"></div>
+        <div>
+          <strong style="font-size:0.95rem;">ManakBot AI Consultation Desk</strong>
+          <div style="font-size:0.68rem; color:var(--slate-300);">Grounded on 572 Indian Standards in Prototype Knowledge Base</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <button type="button" id="clearChatBtn" onclick="clearChatMessages()" class="btn btn-sm" style="background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.3); padding:3px 8px; font-size:0.72rem; cursor:pointer; border-radius:3px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:3px; vertical-align:middle;"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          Clear Chat
+        </button>
+        <span class="badge" style="background:rgba(255,255,255,0.15); color:#fff; border:none; font-size:0.68rem;">SIH26107 Prototype</span>
+      </div>
+    </div>
+
+    <!-- Suggested Quick Prompts (Exact SIH Presentation Questions) -->
+    <div class="chat-quick-prompts" style="flex-wrap:wrap; gap:0.4rem;">
+      <span style="font-weight:700; color:var(--slate-500); align-self:center;">Suggested Questions:</span>
+      <button class="quick-prompt-btn" data-chat-prompt="What is BIS certification?">
+        What is BIS certification?
+      </button>
+      <button class="quick-prompt-btn" data-chat-prompt="How do I find the standard for a geyser?">
+        Standard for Geyser
+      </button>
+      <button class="quick-prompt-btn" data-chat-prompt="What documents are required for BIS certification?">
+        Documents Required
+      </button>
+      <button class="quick-prompt-btn" data-chat-prompt="What is an HUID?">
+        What is an HUID?
+      </button>
+      <button class="quick-prompt-btn" data-chat-prompt="How can I verify an ISI mark?">
+        Verify ISI Mark
+      </button>
+      <button class="quick-prompt-btn" data-chat-prompt="What is QCO?">
+        What is QCO?
+      </button>
+      <button class="quick-prompt-btn" data-chat-prompt="Meri factory me switches bante hain, BIS certification kaise milega?">
+        हिन्दी: Switches License
+      </button>
+    </div>
+
+    <!-- Messages Thread -->
+    <div class="chat-messages" id="chatMessages">
+      
+      <!-- Welcome Message from Bot -->
+      <div class="chat-bubble chat-bubble-bot">
+        <h3 style="margin-top:0;">Welcome to ManakBot Intelligent Standards Assistant</h3>
+        <p>
+          I am your intelligent assistant for Indian Standards, conformity assessment pathways, and BIS services, developed as an educational prototype for Smart India Hackathon 2026.
+        </p>
+        <p>
+          You can ask me about:
+        </p>
+        <ul>
+          <li>Which Indian Standard applies to a specific product or material</li>
+          <li>Quality Control Orders (QCO) and mandatory certification scopes</li>
+          <li>In-house factory testing apparatus requirements and testing benchmarks</li>
+          <li>Indicative fee concessions for Micro and Small manufacturing units (up to 50% relief)</li>
+          <li>Testing laboratories, gold hallmarking (HUID), and licensee verification</li>
+        </ul>
+        <div style="font-size:0.7rem; color:var(--slate-500); margin-top:0.75rem; border-top:1px solid var(--slate-200); padding-top:0.4rem;">
+          <strong>SIH Prototype Notice:</strong> Grounded in the current 572-standard prototype dataset. For official and legal submissions, consult <a href="https://www.manakonline.in" target="_blank" rel="noopener" style="color:var(--gov-800); text-decoration:underline;">manakonline.in</a>.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Chat Footer Input -->
+    <div class="chat-footer">
+      <form id="chatForm" class="chat-form" data-initial-prompt="{{ initial_prompt }}">
+        <input 
+          type="text" 
+          id="chatInput" 
+          class="form-control" 
+          placeholder="Ask ManakBot about an Indian Standard, testing criteria, QCO order, or MSME tariff..." 
+          required 
+          autocomplete="off"
+          value="{{ initial_prompt }}"
+        >
+        <button type="submit" class="btn btn-primary" style="padding:0 1.5rem; white-space:nowrap;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          <span>Send Inquiry</span>
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

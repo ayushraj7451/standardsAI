@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}ManakSetu — Intelligent Access to Indian Standards &amp; BIS Services{% endblock %}</title>
+  
+  <!-- SEO & Social Share Metadata -->
+  <meta name="description" content="Official Gateway for Indian Standards, BIS Certification, MSME 50% Concession Calculator, Hallmarking, Laboratories and TrueMark Verification. Smart India Hackathon 2026.">
+  <meta name="keywords" content="BIS, Bureau of Indian Standards, Indian Standards, IS 1489, ISI Mark, HUID Verification, MSME Concession, QCO, Quality Control Orders, ManakSetu, Laboratories, Certification">
+  <meta name="author" content="Team ManakSetu — Smart India Hackathon 2026 (SIH26107)">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://manaksetu.vercel.app/">
+  <meta property="og:title" content="ManakSetu — BIS Digital Standards &amp; Certification Portal">
+  <meta property="og:description" content="Intelligent access to Indian Standards, 10-stage certification roadmap, testing laboratories, hallmarking HUID verification, and grounded AI compliance guidance.">
+  <meta property="og:image" content="/static/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="ManakSetu">
+  <meta property="og:locale" content="en_IN">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ManakSetu — BIS Digital Standards &amp; Certification Portal">
+  <meta name="twitter:description" content="AI-enabled statutory Indian Standards recommendation and MSME conformity assessment platform.">
+  <meta name="twitter:image" content="/static/images/og-image.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/static/images/logo.svg">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/static/css/main.css">
+  <link rel="stylesheet" href="/static/css/components.css">
+  <link rel="stylesheet" href="/static/css/responsive.css">
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+
+  <!-- National Tricolor Ribbon -->
+  <div class="top-tricolor-bar"></div>
+
+  <!-- SIH Prototype Top Strip -->
+  <div class="top-official-strip">
+    <div class="container">
+      <div class="gov-creds">
+        <span style="font-weight:700; color:#fff; background:rgba(217,119,6,0.3); padding:1px 6px; border-radius:3px; border:1px solid rgba(217,119,6,0.5);">SIH 2026</span>
+        <span style="font-weight:600; color:#f8fafc;">Smart India Hackathon Prototype</span>
+        <span class="divider-dot">•</span>
+        <span class="desktop-only" style="color:#cbd5e1;">Problem Statement SIH26107</span>
+        <span class="divider-dot desktop-only">•</span>
+        <span class="desktop-only" style="color:#94a3b8;">Indian Standards &amp; BIS Services Assistant</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <!-- Accessibility Controls -->
+        <div class="a11y-controls desktop-only" style="display:flex; gap:0.35rem; align-items:center; margin-right:0.5rem; font-size:0.75rem;">
+          <button type="button" onclick="setAppFontSize('sm')" title="Decrease Font Size" style="background:transparent; border:1px solid #475569; color:#cbd5e1; padding:1px 5px; border-radius:2px; cursor:pointer;">A-</button>
+          <button type="button" onclick="setAppFontSize('md')" title="Normal Font Size" style="background:transparent; border:1px solid #475569; color:#fff; padding:1px 5px; border-radius:2px; cursor:pointer; font-weight:bold;">A</button>
+          <button type="button" onclick="setAppFontSize('lg')" title="Increase Font Size" style="background:transparent; border:1px solid #475569; color:#cbd5e1; padding:1px 5px; border-radius:2px; cursor:pointer;">A+</button>
+        </div>
+        <!-- Language Switcher -->
+        <button type="button" id="langToggleBtn" onclick="toggleLanguage()" class="lang-badge" style="background:#1e293b; color:#f8fafc; border:1px solid #475569; padding:2px 8px; font-size:0.75rem; border-radius:3px; cursor:pointer; font-weight:600;">
+          English / हिन्दी
+        </button>
+        <span style="font-size:0.72rem; color:var(--slate-400);" class="desktop-only">Helpline:</span>
+        <a href="tel:1915" class="helpline-badge" title="National Consumer Helpline (Informational Reference)">NCH: 1915</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Institutional Header -->
+  <header class="main-header">
+    <div class="container header-inner">
+      
+      <!-- Brand & Emblem -->
+      <a href="/" class="brand-section" title="ManakSetu Homepage">
+        <div class="emblem-wrapper" style="background:transparent; border:none; width:42px; height:42px; padding:0;">
+          <!-- Authentic ManakSetu Architectural Logo: Foundation Pillars (Manak) + Bridge Arch (Setu) -->
+          <svg viewBox="0 0 40 40" width="42" height="42" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ManakSetu Logo">
+            <rect width="40" height="40" rx="6" fill="#0A3871"/>
+            <rect x="4" y="32" width="32" height="3" rx="0.5" fill="#FFFFFF"/>
+            <rect x="7" y="15" width="6" height="15" fill="#FFFFFF"/>
+            <rect x="5.5" y="13" width="9" height="2" fill="#FFFFFF"/>
+            <rect x="27" y="15" width="6" height="15" fill="#FFFFFF"/>
+            <rect x="25.5" y="13" width="9" height="2" fill="#FFFFFF"/>
+            <path d="M13 19C15 16 25 16 27 19V15H13V19Z" fill="#D97706"/>
+            <rect x="4" y="8" width="32" height="3" rx="0.5" fill="#FFFFFF"/>
+            <polygon points="20,4 23.5,8 16.5,8" fill="#D97706"/>
+            <rect x="18.5" y="10" width="3" height="12" fill="#D97706"/>
+          </svg>
+        </div>
+        <div class="brand-titles">
+          <span class="brand-title-hindi">मानकसेतु</span>
+          <span class="brand-title-main">MANAKSETU</span>
+          <span class="brand-title-sub">Gateway to Indian Standards &amp; BIS Services</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="main-nav" aria-label="Main Navigation">
+        <a href="/" class="nav-link {% if active_tab == 'home' %}active{% endif %}" data-i18n="nav_home">Home</a>
+        <a href="/standards" class="nav-link {% if active_tab == 'standards' %}active{% endif %}" data-i18n="nav_standards">Standards</a>
+        <a href="/certification" class="nav-link {% if active_tab == 'certification' %}active{% endif %}" data-i18n="nav_certification">Certification</a>
+        <a href="/manakbot" class="nav-link {% if active_tab in ['chatbot', 'manakbot'] %}active{% endif %}" data-i18n="nav_manakbot">ManakBot</a>
+        <a href="/verify" class="nav-link {% if active_tab in ['verify', 'consumer'] %}active{% endif %}" data-i18n="nav_verify">Verify</a>
+        <a href="/estimator" class="nav-link {% if active_tab in ['calculator', 'estimator'] %}active{% endif %}" data-i18n="nav_estimator">Estimator</a>
+        <a href="/labs" class="nav-link {% if active_tab in ['laboratories', 'labs'] %}active{% endif %}" data-i18n="nav_labs">Labs</a>
+        <a href="/about" class="nav-link {% if active_tab == 'about' %}active{% endif %}" data-i18n="nav_about">About</a>
+      </nav>
+
+      <!-- Quick Action / Global Search Button -->
+      <div class="header-right-actions desktop-only">
+        <button type="button" class="search-btn-link" onclick="openGlobalSearchModal()" title="Search BIS Standards Database (Ctrl+K)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <span data-i18n="quick_search">Search BIS</span>
+          <kbd style="font-size:10px; opacity:0.65; margin-left:4px; font-family:var(--font-mono); border:1px solid rgba(0,0,0,0.25); padding:1px 4px; border-radius:2px;">⌘K</kbd>
+        </button>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+    </div>
+
+    <!-- Mobile Drawer Navigation -->
+    <div class="mobile-menu-drawer" id="mobileDrawer">
+      <!-- Mobile Quick Search Bar Button -->
+      <button type="button" onclick="openGlobalSearchModal()" style="display:flex; align-items:center; justify-content:center; gap:0.5rem; width:100%; padding:0.65rem 1rem; background:var(--gov-50); border:1px solid var(--gov-700); color:var(--gov-900); font-weight:700; border-radius:var(--radius-sm); margin-bottom:0.75rem; font-size:0.88rem; cursor:pointer;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <span>Search BIS Standards &amp; QCOs</span>
+      </button>
+
+      <div class="mobile-nav-links">
+        <a href="/" class="mobile-nav-link {% if active_tab == 'home' %}active{% endif %}">Home</a>
+        <a href="/standards" class="mobile-nav-link {% if active_tab == 'standards' %}active{% endif %}">Standards Directory</a>
+        <a href="/certification" class="mobile-nav-link {% if active_tab == 'certification' %}active{% endif %}">Certification Navigator</a>
+        <a href="/manakbot" class="mobile-nav-link {% if active_tab in ['chatbot', 'manakbot'] %}active{% endif %}">ManakBot AI Assistant</a>
+        <a href="/verify" class="mobile-nav-link {% if active_tab in ['verify', 'consumer'] %}active{% endif %}">TrueMark Verifier (HUID/CML)</a>
+        <a href="/estimator" class="mobile-nav-link {% if active_tab in ['calculator', 'estimator'] %}active{% endif %}">MSME Cost Estimator</a>
+        <a href="/labs" class="mobile-nav-link {% if active_tab in ['laboratories', 'labs'] %}active{% endif %}">Testing Laboratories</a>
+        <a href="/hallmarking" class="mobile-nav-link {% if active_tab == 'hallmarking' %}active{% endif %}">Gold Hallmarking &amp; HUID</a>
+        <a href="/report" class="mobile-nav-link {% if active_tab == 'report' %}active{% endif %}">Grievance Registration</a>
+        <a href="/faq" class="mobile-nav-link {% if active_tab == 'faq' %}active{% endif %}">Help &amp; FAQ</a>
+        <a href="/about" class="mobile-nav-link {% if active_tab == 'about' %}active{% endif %}">About SIH26107</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Main Content Block -->
+  <main id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Portal Institutional Footer -->
+  <footer class="portal-footer">
+    <div class="container footer-inner">
+      <div class="footer-grid">
+        
+        <!-- Col 1: About Platform -->
+        <div class="footer-col" style="grid-column: span 1;">
+          <div style="display:flex; align-items:center; gap:0.65rem; margin-bottom:0.75rem;">
+            <svg viewBox="0 0 40 40" width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect width="40" height="40" rx="4" fill="#0A3871"/>
+              <rect x="4" y="32" width="32" height="3" rx="0.5" fill="#FFFFFF"/>
+              <rect x="7" y="15" width="6" height="15" fill="#FFFFFF"/>
+              <rect x="5.5" y="13" width="9" height="2" fill="#FFFFFF"/>
+              <rect x="27" y="15" width="6" height="15" fill="#FFFFFF"/>
+              <rect x="25.5" y="13" width="9" height="2" fill="#FFFFFF"/>
+              <path d="M13 19C15 16 25 16 27 19V15H13V19Z" fill="#D97706"/>
+              <rect x="4" y="8" width="32" height="3" rx="0.5" fill="#FFFFFF"/>
+              <polygon points="20,4 23.5,8 16.5,8" fill="#D97706"/>
+              <rect x="18.5" y="10" width="3" height="12" fill="#D97706"/>
+            </svg>
+            <h4 style="margin-bottom:0; border-bottom:none; padding-bottom:0;">ManakSetu Portal</h4>
+          </div>
+          <p style="font-size:0.8rem; color:var(--slate-400); line-height:1.5; margin-bottom:1rem;">
+            ManakSetu is an intelligent standards assistant and conformity assessment platform built for 
+            <strong>Smart India Hackathon 2026 (Problem Statement SIH26107)</strong>. It bridges Indian citizens, 
+            MSME manufacturers, and testing laboratories with authentic BIS standards, licensing roadmaps, and hallmarking.
+          </p>
+          <div style="font-size:0.75rem; color:var(--slate-400);">
+            <strong>Reference Framework:</strong> Bureau of Indian Standards Act, 2016
+          </div>
+        </div>
+
+        <!-- Col 2: Standards & Conformity -->
+        <div class="footer-col">
+          <h4>Conformity &amp; Standards</h4>
+          <ul class="footer-links">
+            <li><a href="/standards">Indian Standards Directory</a></li>
+            <li><a href="/standards?qco_only=true">Mandatory QCO Orders</a></li>
+            <li><a href="/certification">10-Stage Certification Navigator</a></li>
+            <li><a href="/hallmarking">Gold Hallmarking &amp; HUID</a></li>
+            <li><a href="/laboratories">Testing Laboratories Directory</a></li>
+            <li><a href="/calculator">MSME Fee Concession Calculator</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Portal Gateways -->
+        <div class="footer-col">
+          <h4>Assistance Gateways</h4>
+          <ul class="footer-links">
+            <li><a href="/chatbot">ManakBot AI Consultation</a></li>
+            <li><a href="/verify">TrueMark Consumer Verifier</a></li>
+            <li><a href="/report">Violation &amp; Grievance Cell</a></li>
+            <li><a href="/services">BIS Conformity Schemes</a></li>
+            <li><a href="/faq">Frequently Asked Questions</a></li>
+            <li><a href="/api/docs" target="_blank" rel="noopener">FastAPI Documentation</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Official BIS Links -->
+        <div class="footer-col">
+          <h4>Official Portals</h4>
+          <ul class="footer-links">
+            <li><a href="https://www.manakonline.in" target="_blank" rel="noopener">e-BIS ManakOnline Portal</a></li>
+            <li><a href="https://www.bis.gov.in" target="_blank" rel="noopener">BIS Official Website</a></li>
+            <li><a href="https://consumerhelpline.gov.in" target="_blank" rel="noopener">National Consumer Helpline (1915)</a></li>
+            <li><a href="https://dpiit.gov.in" target="_blank" rel="noopener">DPIIT — Ministry of Commerce</a></li>
+            <li><a href="https://sih.gov.in" target="_blank" rel="noopener">Smart India Hackathon 2026</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- SIH Prototype Disclaimer Box -->
+      <div class="footer-disclaimer-box">
+        <strong>SIH Prototype Notice &amp; Disclaimer:</strong>
+        ManakSetu is an educational/prototype platform created for SIH26107 and is not an official BIS or Government of India portal. 
+        All Indian Standards specifications, gazette notifications, laboratory recognitions, and licensee statuses are retrieved from available BIS reference data and 
+        must be confirmed with the official BIS portal (<a href="https://www.manakonline.in" target="_blank" rel="noopener" style="color:#93c5fd; text-decoration:underline;">manakonline.in</a>) 
+        before entering into commercial manufacturing, packaging, or formal conformity filings.
+      </div>
+
+    </div>
+
+    <!-- Bottom Copyright Strip -->
+    <div class="footer-bottom-strip">
+      <div class="container">
+        <span>&copy; 2026 ManakSetu • Smart India Hackathon Prototype (SIH26107) • Powered by Python &amp; FastAPI</span>
+        <span>Prototype Dataset: 572 Indexed Indian Standards</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Global "Search BIS" Modal (Palette Style) -->
+  <div id="globalSearchModal" class="search-modal-backdrop" onclick="closeGlobalSearchModalOnBackdrop(event)" role="dialog" aria-modal="true" aria-labelledby="globalSearchModalTitle">
+    <div class="search-modal-dialog" onclick="event.stopPropagation()">
+      <!-- Modal Header -->
+      <div class="search-modal-header">
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <div class="search-modal-icon-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </div>
+          <div>
+            <h3 id="globalSearchModalTitle" style="font-size:0.95rem; font-weight:800; color:var(--gov-900); margin:0;">Search BIS Standards Database</h3>
+            <p style="font-size:0.72rem; color:var(--slate-500); margin:0;">Indexed 572 Indian Standards, Mandatory QCOs, &amp; ManakBot AI Consultation</p>
+          </div>
+        </div>
+        <button type="button" class="search-modal-close-btn" onclick="closeGlobalSearchModal()" aria-label="Close search modal">&times;</button>
+      </div>
+
+      <!-- Search Input Form -->
+      <form id="globalSearchModalForm" onsubmit="submitModalSearch(event)" style="padding: 1rem 1.25rem 0.5rem;">
+        <div class="modal-search-input-wrap">
+          <svg class="modal-search-input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input 
+            type="text" 
+            id="modalSearchInput" 
+            class="modal-search-input" 
+            placeholder="Search standards (e.g., geyser, cement, helmet, IS 2082)..." 
+            autocomplete="off"
+          >
+          <button type="button" id="modalClearSearchBtn" onclick="clearModalSearch()" style="display:none; background:none; border:none; color:var(--slate-400); cursor:pointer; font-size:1.2rem; line-height:1; padding:0.25rem 0.5rem;" title="Clear search">&times;</button>
+        </div>
+
+        <div class="modal-search-actions">
+          <button type="submit" class="btn btn-primary btn-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span>Search Standards</span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="askManakBotFromModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span>Ask ManakBot AI</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Popular Search Chips in Modal -->
+      <div style="padding: 0.5rem 1.25rem 0.75rem;">
+        <div style="font-size:0.7rem; font-weight:700; color:var(--slate-500); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.4rem;">
+          Popular Indian Standards &amp; Inquiries:
+        </div>
+        <div class="modal-chips-list">
+          <button type="button" class="modal-chip" onclick="setModalSearchValue('geyser')">Geysers (IS 2082)</button>
+          <button type="button" class="modal-chip" onclick="setModalSearchValue('cement')">Cement (IS 1489)</button>
+          <button type="button" class="modal-chip" onclick="setModalSearchValue('helmet')">Helmets (IS 4151)</button>
+          <button type="button" class="modal-chip" onclick="setModalSearchValue('switch')">Switches (IS 3854)</button>
+          <button type="button" class="modal-chip" onclick="setModalSearchValue('baby doll')">Toys (IS 9873)</button>
+          <button type="button" class="modal-chip" onclick="setModalSearchValue('pressure cooker')">Cookers (IS 2347)</button>
+          <button type="button" class="modal-chip" onclick="setModalSearchValue('electrical cable')">Cables (IS 9968)</button>
+          <button type="button" class="modal-chip" onclick="setModalSearchValue('drinking water')">Water (IS 14543)</button>
+        </div>
+      </div>
+
+      <!-- Live Search Results Preview Container -->
+      <div id="modalLiveResults" class="modal-live-results" style="display:none;"></div>
+
+      <!-- Modal Footer -->
+      <div class="search-modal-footer">
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <span><kbd>Enter</kbd> to search</span>
+          <span><kbd>Esc</kbd> to close</span>
+          <span><kbd>⌘K</kbd> to toggle</span>
+        </div>
+        <a href="/standards" style="color:var(--gov-800); font-weight:700; text-decoration:none;">View All 572 Standards &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Centralized API Client & Minimal Browser JavaScript -->
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/minimal.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
