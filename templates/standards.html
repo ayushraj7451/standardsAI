@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Indian Standards Directory — ManakSetu{% endblock %}
+{% block title %}Indian Standards Directory — StandardsAI{% endblock %}
 
 {% block content %}
 <div class="container" style="padding-top: 1.5rem; padding-bottom: 3rem;">
@@ -29,7 +29,7 @@
   <div class="gov-card" style="padding:1.25rem; margin-bottom:1.5rem; background:var(--white);">
     <form action="/standards" method="GET" id="standardsSearchForm" onsubmit="handleStandardsSearchSubmit(event)" style="display:flex; flex-direction:column; gap:1rem; position:relative;">
       
-      <!-- Search Input Bar with Dual Actions: Search Standards & Ask ManakBot -->
+      <!-- Search Input Bar with Dual Actions: Search Standards & Ask StandardsAI -->
       <div style="display:flex; gap:0.5rem; flex-wrap:wrap; position:relative;">
         <div style="flex:1; min-width:260px; position:relative; display:flex; align-items:center;">
           <input 
@@ -48,9 +48,9 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
           <span>Search Standards</span>
         </button>
-        <button type="button" id="askManakBotSearchBtn" class="btn btn-sky" onclick="askManakBotFromStandards()" title="Consult Grounded AI Assistant">
+        <button type="button" id="askManakBotSearchBtn" class="btn btn-ai" onclick="askManakBotFromStandards()" title="Consult Grounded AI Assistant">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <span>Ask ManakBot</span>
+          <span>Ask StandardsAI</span>
         </button>
         {% if query or selected_category != 'All' or qco_only %}
           <a href="/standards" class="btn btn-secondary">Clear Filters</a>
@@ -85,7 +85,7 @@
     </form>
   </div>
 
-  <!-- ManakBot Query Consultation Callout Banner -->
+  <!-- StandardsAI Query Consultation Callout Banner -->
   {% if query %}
     <div class="gov-card" style="padding:1rem 1.25rem; margin-bottom:1.5rem; background:linear-gradient(135deg, #f0f9ff 0%, #ecfdf5 100%); border:1px solid #bae6fd; border-left:4px solid #0284c7; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
       <div style="display:flex; align-items:center; gap:0.75rem;">
@@ -97,13 +97,13 @@
             Have questions or need compliance guidance on "{{ query }}"?
           </div>
           <div style="font-size:0.78rem; color:var(--slate-600); margin-top:2px;">
-            ManakBot AI answers testing guidelines, QCO enforcement dates, and MSME fee subsidies for this product.
+            StandardsAI Assistant answers testing guidelines, QCO enforcement dates, and MSME fee subsidies for this product.
           </div>
         </div>
       </div>
-      <a href="/manakbot?prompt={{ ('What Indian Standards, testing benchmarks, and BIS certification steps apply to ' + query + '?') | urlencode }}" class="btn btn-sky btn-sm" style="white-space:nowrap;">
+      <a href="/manakbot?prompt={{ ('What Indian Standards, testing benchmarks, and BIS certification steps apply to ' + query + '?') | urlencode }}" class="btn btn-ai btn-sm" style="white-space:nowrap;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <span>Ask ManakBot about "{{ query }}" &rarr;</span>
+        <span>Ask StandardsAI about "{{ query }}" &rarr;</span>
       </a>
     </div>
   {% endif %}
@@ -152,9 +152,9 @@
           <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--slate-100); padding-top:0.75rem; flex-wrap:wrap; gap:0.5rem;">
             <span style="font-size:0.72rem; color:var(--slate-400);">Source: {{ item.source }}</span>
             <div style="display:flex; gap:0.45rem; flex-wrap:wrap;">
-              <a href="/manakbot?prompt={{ ('What are the mandatory testing requirements and BIS certification steps for ' + item.is_number + ' - ' + item.title + '?') | urlencode }}" class="btn btn-sm" style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; font-weight:700;" title="Consult ManakBot on this standard">
+              <a href="/manakbot?prompt={{ ('What are the mandatory testing requirements and BIS certification steps for ' + item.is_number + ' - ' + item.title + '?') | urlencode }}" class="btn btn-sm" style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; font-weight:700;" title="Consult StandardsAI on this standard">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                <span>Ask ManakBot</span>
+                <span>Ask StandardsAI</span>
               </a>
               <a href="/estimator?standard={{ item.is_number }}" class="btn btn-secondary btn-sm" title="Calculate MSME relief">
                 Calculate Fee
@@ -192,14 +192,14 @@
       <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--slate-400)" stroke-width="1.5" style="margin-bottom:1rem;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
       <h3 style="font-size:1.15rem; font-weight:800; color:var(--gov-900); margin-bottom:0.4rem;">No Indian Standards Found</h3>
       <p style="font-size:0.85rem; color:var(--slate-600); max-width:480px; margin:0 auto 1.5rem;">
-        We could not find any standard matching "{{ query }}". You can consult ManakBot AI for intelligent cross-referencing against the full BIS catalogue, or browse all catalogued standards.
+        We could not find any standard matching "{{ query }}". You can consult StandardsAI Assistant for intelligent cross-referencing against the full BIS catalogue, or browse all catalogued standards.
       </p>
       <div style="display:flex; justify-content:center; gap:0.75rem; flex-wrap:wrap;">
         <a href="/standards" class="btn btn-secondary btn-sm">Browse All Standards</a>
         {% if query %}
-          <a href="/manakbot?prompt={{ ('What Indian Standards or BIS certification applies to ' + query + '?') | urlencode }}" class="btn btn-sky btn-sm">
+          <a href="/manakbot?prompt={{ ('What Indian Standards or BIS certification applies to ' + query + '?') | urlencode }}" class="btn btn-ai btn-sm">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            <span>Ask ManakBot about "{{ query }}" &rarr;</span>
+            <span>Ask StandardsAI about "{{ query }}" &rarr;</span>
           </a>
         {% endif %}
       </div>

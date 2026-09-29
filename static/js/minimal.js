@@ -1,7 +1,7 @@
 /**
- * ManakSetu Portal — Minimal Browser JavaScript
+ * StandardsAI Portal — Minimal Browser JavaScript
  * Provides essential DOM interactivity: Mobile menu, Chat AJAX, Verifier tabs, Live Calculator, Accessibility, Audience switcher, Product Matcher
- * Uses window.ManakSetuApi client with automated offline/demo fallback
+ * Uses window.StandardsAIApi (or window.ManakSetuApi) client with automated offline/demo fallback
  */
 
 // ── Global Accessibility & Portal Functions ────────────────────────────────
@@ -10,72 +10,12 @@ window.setAppFontSize = function (size) {
   if (size === 'sm') document.body.classList.add('font-size-sm');
   else if (size === 'lg') document.body.classList.add('font-size-lg');
   else document.body.classList.add('font-size-md');
-  try { localStorage.setItem('manaksetu_font_size', size); } catch (e) {}
+  try { localStorage.setItem('standardsai_font_size', size); } catch (e) {}
 };
 
 try {
-  var savedSize = localStorage.getItem('manaksetu_font_size');
+  var savedSize = localStorage.getItem('standardsai_font_size') || localStorage.getItem('manaksetu_font_size');
   if (savedSize) window.setAppFontSize(savedSize);
-} catch (e) {}
-
-// ── Bilingual Dictionary & Language Switcher ────────────────────────────────
-var I18N_DICT = {
-  en: {
-    nav_home: 'Home',
-    nav_standards: 'Standards',
-    nav_certification: 'Certification',
-    nav_manakbot: 'ManakBot',
-    nav_verify: 'Verify',
-    nav_estimator: 'Estimator',
-    nav_labs: 'Labs',
-    nav_about: 'About',
-    quick_search: 'Search BIS'
-  },
-  hi: {
-    nav_home: 'मुख्य पृष्ठ',
-    nav_standards: 'मानक निर्देशिका',
-    nav_certification: 'प्रमाणीकरण',
-    nav_manakbot: 'मानकबॉट',
-    nav_verify: 'सत्यापन',
-    nav_estimator: 'शुल्क गणक',
-    nav_labs: 'प्रयोगशालाएं',
-    nav_about: 'परिचय',
-    quick_search: 'मानक खोजें'
-  }
-};
-
-
-function applyTranslations(lang) {
-  var dict = I18N_DICT[lang] || I18N_DICT.en;
-  document.querySelectorAll('[data-i18n]').forEach(function (el) {
-    var key = el.getAttribute('data-i18n');
-    if (dict[key]) {
-      el.textContent = dict[key];
-    }
-  });
-}
-
-window.toggleLanguage = function () {
-  var btn = document.getElementById('langToggleBtn');
-  var isHindi = document.body.classList.toggle('lang-hindi');
-  var lang = isHindi ? 'hi' : 'en';
-  if (btn) {
-    btn.textContent = isHindi ? 'हिन्दी / English' : 'English / हिन्दी';
-  }
-  applyTranslations(lang);
-  try { localStorage.setItem('manaksetu_lang', lang); } catch (e) {}
-};
-
-try {
-  var savedLang = localStorage.getItem('manaksetu_lang');
-  if (savedLang === 'hi') {
-    document.addEventListener('DOMContentLoaded', function () {
-      document.body.classList.add('lang-hindi');
-      var btn = document.getElementById('langToggleBtn');
-      if (btn) btn.textContent = 'हिन्दी / English';
-      applyTranslations('hi');
-    });
-  }
 } catch (e) {}
 
 window.switchAudience = function (audience) {
@@ -130,7 +70,7 @@ window.clearChatMessages = function () {
   if (!chatMessages) return;
   chatMessages.innerHTML = `
     <div class="chat-bubble chat-bubble-bot">
-      <h3 style="margin-top:0;">Welcome to ManakBot Intelligent Standards Assistant</h3>
+      <h3 style="margin-top:0;">Welcome to StandardsAI Intelligent Assistant</h3>
       <p>I am your intelligent assistant for Indian Standards, conformity assessment pathways, and BIS services, developed as an educational prototype for Smart India Hackathon 2026.</p>
       <p>You can ask me about:</p>
       <ul>
@@ -305,14 +245,14 @@ window.renderSearchSuggestions = function (results, q, container, inputElem) {
       '</a>';
     });
   } else if (!/^[A-Z0-9]{6}$/i.test(qTrim) && !/^\d{7}$/.test(qTrim)) {
-    html += '<div style="padding:0.85rem 1rem; font-size:0.8rem; color:var(--slate-500); text-align:center;">No direct matching standard in current prototype dataset. Press Enter to search all 572 standards or ask ManakBot.</div>';
+    html += '<div style="padding:0.85rem 1rem; font-size:0.8rem; color:var(--slate-500); text-align:center;">No direct matching standard in current prototype dataset. Press Enter to search all 572 standards or ask StandardsAI.</div>';
   }
 
   // Dropdown Footer
   html += '<div class="search-dropdown-footer">';
-  html += '<a href="/manakbot?prompt=' + encodeURIComponent('What Indian Standards and BIS compliance steps apply to ' + qTrim + '?') + '" style="display:flex; align-items:center; gap:0.35rem; color:#7e22ce;">';
+  html += '<a href="/manakbot?prompt=' + encodeURIComponent('What Indian Standards and BIS compliance steps apply to ' + qTrim + '?') + '" style="display:flex; align-items:center; gap:0.35rem; color:#4f46e5;">';
   html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
-  html += '<span>Ask ManakBot AI &rarr;</span>';
+  html += '<span>Ask StandardsAI Assistant &rarr;</span>';
   html += '</a>';
   html += '<a href="/standards?q=' + encodeURIComponent(qTrim) + '" style="color:var(--gov-800);">';
   html += '<span>View Directory &rarr;</span>';
@@ -401,7 +341,7 @@ window.triggerModalLiveSearch = function (query) {
   clearTimeout(modalSearchDebounceTimer);
   modalSearchDebounceTimer = setTimeout(async function () {
     try {
-      var api = window.ManakSetuApi;
+      var api = window.StandardsAIApi || window.ManakSetuApi;
       var data = api ? await api.searchStandards(q, 5) : null;
       var results = (data && data.results) || [];
       window.renderSearchSuggestions(results, q, liveResults, document.getElementById('modalSearchInput'));
@@ -479,7 +419,7 @@ window.runProductRecommendation = async function () {
   }
 
   try {
-    var api = window.ManakSetuApi;
+    var api = window.StandardsAIApi || window.ManakSetuApi;
     var data = api ? await api.recommendStandards(query, 4) : null;
     
     if (!data || !data.success) {
@@ -506,26 +446,38 @@ window.runProductRecommendation = async function () {
 
     var html = '';
     items.forEach(function (std) {
-      var badgeStyle = 'background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0;';
+      var badgeClass = 'badge-green';
+      var badgeDot = '#059669';
+      var matchPct = '95.8%';
       if (std.relevance_badge === 'Potentially Relevant') {
-        badgeStyle = 'background:#fffbeb; color:#92400e; border:1px solid #fde68a;';
+        badgeClass = 'badge-gold';
+        badgeDot = '#d97706';
+        matchPct = '82.4%';
       } else if (std.relevance_badge === 'Related') {
-        badgeStyle = 'background:#f1f5f9; color:#475569; border:1px solid #cbd5e1;';
+        badgeClass = 'badge-slate';
+        badgeDot = '#64748b';
+        matchPct = '68.0%';
       }
 
       var matchReason = std.why_it_matches || std.scope || std.description || 'Standard matches product classification and conformity requirements.';
 
       html += `
-        <div class="p-3 bg-white border border-slate-300 rounded-sm">
-          <div class="flex items-center justify-between mb-1">
-            <span class="badge text-2xs" style="${badgeStyle}">${std.relevance_badge || 'Relevant'}</span>
-            <span class="text-2xs font-mono text-slate-500">${std.is_number}</span>
+        <div class="rec-result-card-live">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+            <span class="badge ${badgeClass}" style="font-size:0.7rem;">
+              <span style="width:6px; height:6px; border-radius:50%; background:${badgeDot}; display:inline-block; margin-right:4px;"></span>
+              ${std.relevance_badge || 'Relevant'} (${matchPct})
+            </span>
+            <span style="font-family:var(--font-mono); font-weight:800; font-size:0.82rem; color:var(--color-primary); background:#eff6ff; border:1px solid #bfdbfe; padding:0.2rem 0.5rem; border-radius:4px;">${std.is_number}</span>
           </div>
-          <h4 class="text-xs font-bold text-gov-900 mb-1">${std.is_number} — ${std.title}</h4>
-          <p class="text-2xs text-slate-600 mb-2"><strong>Why it matches:</strong> ${matchReason}</p>
-          <div class="text-2xs text-slate-500 flex justify-between items-center pt-2 border-t border-slate-100">
-            <span>Source: ${std.source || 'BIS Reference Catalogue'}</span>
-            <a href="/standards?q=${encodeURIComponent(std.is_number)}" class="text-gov-800 font-bold hover:underline">View Standard &rarr;</a>
+          <h4 style="font-size:1.02rem; font-weight:800; color:var(--slate-900); margin:0 0 0.5rem; line-height:1.35;">${std.is_number} — ${std.title}</h4>
+          <p style="font-size:0.82rem; color:var(--slate-600); line-height:1.5; margin:0 0 1rem;"><strong style="color:var(--slate-800);">Why it matches:</strong> ${matchReason}</p>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #f1f5f9; padding-top:0.75rem; flex-wrap:wrap; gap:0.5rem;">
+            <span style="font-size:0.72rem; color:var(--slate-400);">Source: ${std.source || 'BIS Reference Catalogue'}</span>
+            <div style="display:flex; gap:0.4rem;">
+              <a href="/manakbot?prompt=${encodeURIComponent('What are the BIS testing requirements and compliance steps for ' + std.is_number + ' (' + std.title + ')?')}" class="btn btn-ai btn-sm" style="font-size:0.72rem;">Ask StandardsAI</a>
+              <a href="/standards?q=${encodeURIComponent(std.is_number)}" class="btn btn-primary btn-sm" style="font-size:0.72rem;">View Standard &rarr;</a>
+            </div>
           </div>
         </div>
       `;
@@ -739,7 +691,7 @@ document.addEventListener('DOMContentLoaded', function () {
       appendBotLoading();
 
       try {
-        var api = window.ManakSetuApi;
+        var api = window.StandardsAIApi || window.ManakSetuApi;
         var resObj = api ? await api.askManakBot(queryText, chatHistory) : null;
         if (resObj && resObj.success) {
           appendBotResponse(resObj.data);
@@ -793,7 +745,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var stdCode = calcStandardInput.value.trim() || 'IS 1489';
 
       try {
-        var api = window.ManakSetuApi;
+        var api = window.StandardsAIApi || window.ManakSetuApi;
         var resObj = api ? await api.calculateFees(stdCode, tier) : null;
         var data = resObj && resObj.success ? resObj.data : null;
 
@@ -845,7 +797,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (heroClearBtn) heroClearBtn.style.display = val.trim() ? 'block' : 'none';
       clearTimeout(heroDebounce);
       heroDebounce = setTimeout(async function () {
-        var api = window.ManakSetuApi;
+        var api = window.StandardsAIApi || window.ManakSetuApi;
         var data = api ? await api.searchStandards(val, 5) : null;
         window.renderSearchSuggestions((data && data.results) || [], val, heroSuggestions, heroInput);
       }, 160);
@@ -873,7 +825,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (stdClearBtn) stdClearBtn.style.display = val.trim() ? 'block' : 'none';
       clearTimeout(stdDebounce);
       stdDebounce = setTimeout(async function () {
-        var api = window.ManakSetuApi;
+        var api = window.StandardsAIApi || window.ManakSetuApi;
         var data = api ? await api.searchStandards(val, 5) : null;
         window.renderSearchSuggestions((data && data.results) || [], val, stdSuggestions, stdInput);
       }, 160);

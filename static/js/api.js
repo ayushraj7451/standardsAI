@@ -309,7 +309,7 @@
       } catch (e) {}
       return {
         success: true,
-        data: { status: 'ok', service: 'ManakSetu API', standards_indexed: LOCAL_STANDARDS.length }
+        data: { status: 'ok', service: 'StandardsAI API', standards_indexed: LOCAL_STANDARDS.length }
       };
     },
 
@@ -584,7 +584,7 @@
           return { success: true, data: d };
         }
       } catch (e) {
-        showDemoNotice('ManakBot operating with grounded local reference engine.');
+        showDemoNotice('StandardsAI operating with grounded local reference engine.');
       }
 
       var matchedStd = LOCAL_STANDARDS[0];
@@ -624,9 +624,9 @@
             source_type: "BIS Reference Document",
             url: "/standards?q=" + encodeURIComponent(matchedStd.is_number)
           }],
-          source: "ManakSetu Grounded Knowledge Engine (Demo Mode)",
+          source: "StandardsAI Grounded Knowledge Engine (Demo Mode)",
           confidence: "Grounded in Retrieved BIS Specifications",
-          disclaimer: "ManakSetu is an educational prototype assistant developed for SIH26108.",
+          disclaimer: "StandardsAI is an educational prototype assistant developed for SIH26108 (Problem Statement PS108).",
           is_refusal: false,
           structured_sections: structuredSections,
           citations: []
@@ -636,6 +636,7 @@
   };
 
   if (typeof window !== 'undefined') {
+    window.StandardsAIApi = ManakSetuApi;
     window.ManakSetuApi = ManakSetuApi;
   }
   if (typeof module !== 'undefined' && module.exports) {

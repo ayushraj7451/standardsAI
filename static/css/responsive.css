@@ -326,4 +326,13 @@ img, svg, video, canvas, audio, iframe, embed, object {
   }
 }
 
+/* Touch Accessibility & Safe Areas */
+@media (hover: none) and (pointer: coarse) {
+  .btn, .nav-link, .mobile-nav-link, .search-chip, .quick-prompt-btn, .modal-chip {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
 

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Certification Navigator — 10-Stage Statutory Conformity Roadmap | ManakSetu{% endblock %}
+{% block title %}Certification Navigator — 10-Stage Statutory Conformity Roadmap | StandardsAI{% endblock %}
 
 {% block content %}
 <!-- Breadcrumb -->
@@ -395,16 +395,16 @@
         </a>
       </div>
 
-      <!-- Quick Action: ManakBot AI Consultation -->
+      <!-- Quick Action: StandardsAI Consultation -->
       <div class="sidebar-card bg-white border border-slate-300 rounded-sm p-5 shadow-xs">
         <h4 class="text-sm font-bold text-slate-900 border-b border-slate-200 pb-2 mb-3">
-          Consult ManakBot AI
+          Consult StandardsAI Assistant
         </h4>
         <p class="text-xs text-slate-600 mb-4 leading-relaxed">
           Ask specific questions regarding licensing procedures, mandatory QCO deadlines, in-house testing equipment, or MSME tariff relief.
         </p>
         <a href="/chatbot" class="btn btn-sm btn-outline w-full text-xs text-center justify-center">
-          Ask ManakBot AI
+          Ask StandardsAI
         </a>
       </div>
 
@@ -705,7 +705,7 @@ function generateWizardPathway() {
           Locate Testing Labs for this Standard
         </a>
         <a href="/manakbot?prompt=${encodeURIComponent('Explain the complete BIS certification roadmap and documents required for ' + data.title + ' (' + data.standard + ')')}" class="btn btn-sm btn-navy text-xs">
-          Consult ManakBot AI on this Pathway
+          Consult StandardsAI on this Pathway
         </a>
         <a href="https://www.manakonline.in" target="_blank" rel="noopener" class="btn btn-sm btn-outline text-xs">
           Official e-BIS Filing ↗
@@ -753,13 +753,13 @@ function selectStage(stepNum) {
     }
   }
   try {
-    sessionStorage.setItem('manaksetu_stage', stepNum);
+    sessionStorage.setItem('standardsai_stage', stepNum);
   } catch (e) {}
 }
 
 document.addEventListener('DOMContentLoaded', function () {
   try {
-    const saved = sessionStorage.getItem('manaksetu_stage');
+    const saved = sessionStorage.getItem('standardsai_stage') || sessionStorage.getItem('manaksetu_stage');
     if (saved) {
       const num = parseInt(saved, 10);
       if (num >= 1 && num <= 10) selectStage(num);

@@ -202,11 +202,11 @@ def test_prototype_honesty_and_branding():
     r = client.get("/")
     assert r.status_code == 200
     html = r.text
-    assert "SIH26107" in html
+    assert "SIH26108" in html
     assert "not an official BIS or Government of India portal" in html
     assert "572" in html
     assert "21,000+" in html
-    print("  [PASS] Homepage correctly presents SIH26107 Prototype identity & 572 vs 21,000+ distinction")
+    print("  [PASS] Homepage correctly presents SIH26108 Prototype identity & 572 vs 21,000+ distinction")
 
     # Verify Safe Refusal exact message
     r = client.post("/api/chatbot", json={"message": "What is the capital of Australia and how to bake chocolate cake?"})
